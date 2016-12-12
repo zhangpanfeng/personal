@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Panfeng.info</title>
+<link rel="shortcut icon" href="/favicon.ico" />
 </head>
 <body>
 <h1>Hello World!</h1>
