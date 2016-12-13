@@ -14,6 +14,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeUtility;
 
 import org.apache.log4j.Logger;
 
@@ -61,9 +62,7 @@ public class MailUtil {
                 // 添加附件的内容
                 fileBodyPart.setDataHandler(new DataHandler(source));
                 // 添加附件的标题
-                // 这里很重要，通过下面的Base64编码的转换可以保证你的中文附件标题名在发送时不会变成乱码
-                sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
-                fileBodyPart.setFileName("=?GBK?B?" + enc.encode(fileName.getBytes()) + "?=");
+                fileBodyPart.setFileName(MimeUtility.encodeText(fileName));
                 multipart.addBodyPart(fileBodyPart);
             }
 
