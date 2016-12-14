@@ -1,4 +1,4 @@
-package com.darren.util;
+package com.darren.personal.util;
 
 import java.util.Properties;
 
@@ -18,7 +18,7 @@ import javax.mail.internet.MimeUtility;
 
 import org.apache.log4j.Logger;
 
-import com.darren.entity.Mail;
+import com.darren.personal.entity.Mail;
 
 public class MailUtil {
     private static final Logger LOG = Logger.getLogger(MailUtil.class);

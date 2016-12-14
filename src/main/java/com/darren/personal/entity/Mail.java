@@ -1,4 +1,4 @@
-package com.darren.entity;
+package com.darren.personal.entity;
 
 import java.util.ArrayList;
 import java.util.List;

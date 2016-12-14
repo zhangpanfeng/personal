@@ -8,7 +8,7 @@
 </head>
 <body>
   <!--header-->
-  <jsp:include page="header.jsp"></jsp:include>
+  <jsp:include page="../../header.jsp"></jsp:include>
   <!--contact-->
   <div class="jumbotron">
     <div class="container">
@@ -47,7 +47,7 @@
   <hr>
   </div>
   <!-- footer -->
-  <jsp:include page="footer.jsp"></jsp:include>
+  <jsp:include page="../../footer.jsp"></jsp:include>
 
   <!-- Bootstrap core JavaScript -->
   <script src="js/jquery-1.11.1.js"></script>

@@ -1,6 +1,6 @@
-package com.darren.util;
+package com.darren.personal.util;
 
-import com.darren.entity.Mail;
+import com.darren.personal.entity.Mail;
 
 public class MailTest {
 
