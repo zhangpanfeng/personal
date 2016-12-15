@@ -17,22 +17,22 @@
         <div class="text-center">
           <h2>Contact Me</h2>
         </div>
-        <form role="form" >
+        <form role="form" action="sendmail.do" >
           <div class="form-group">
             <label for="name">*Name</label> <input type="text"
-              class="form-control" id="name" placeholder="Your Name">
+              class="form-control" name="name" placeholder="Your Name">
           </div>
                     <div class="form-group">
             <label for="email">*Email</label> <input type="text"
-              class="form-control" id="name" placeholder="Your Email">
+              class="form-control" name="to" placeholder="Your Email">
           </div>
           <div class="form-group">
             <label for="subject">*Subject</label> <input type="text"
-              class="form-control" id="name" placeholder="Your Subject">
+              class="form-control" name="subject" placeholder="Your Subject">
           </div>
            <div class="form-group">
             <label for="subject">*Content</label> <textarea 
-              rows="7" cols="" class="form-control" id="name" placeholder="Your Content"></textarea>
+              rows="7" cols="" class="form-control" name="text" placeholder="Your Content"></textarea>
           </div>
           <button type="submit" class="btn btn-default pull-right">Send</button>
         </form>
