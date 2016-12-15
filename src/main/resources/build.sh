@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pwd
+echo "hello World"
 ls
 #cd /home/darren/workspace/personal
 #git pull
