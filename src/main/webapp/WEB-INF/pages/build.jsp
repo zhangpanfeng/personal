@@ -15,7 +15,6 @@
     <a href="execShell.html">build</a>
     </div>
     
-    <h1>Build</h1>
   </div>
   
   <div class="container">
