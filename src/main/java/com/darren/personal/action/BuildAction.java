@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class BuildAction {
     private static final Logger LOG = Logger.getLogger(BuildAction.class);
-    private static final String SCRIPT_PATH = "scriptPath";
+    private static final String SCRIPT_PATH = "shellScript";
 
     @RequestMapping(value = "/build.do")
     public String build() {
@@ -32,21 +32,29 @@ public class BuildAction {
             File scriptFile = ResourceUtils.getFile(shellScript);  
             String scriptPath = scriptFile.getAbsolutePath();
             LOG.info("scriptPath = " + scriptPath);
-            String command = "chmod 777 " + scriptPath;
+            String command1 = "chmod 777 " + scriptPath;
+            String command2 = "sh " + scriptPath;
             BufferedReader re = new BufferedReader( new InputStreamReader(new FileInputStream(scriptFile)));
             String li = null;
             while ((li = re.readLine()) != null){  
                 LOG.info(li);
             } 
-            process = Runtime.getRuntime().exec(command);
-            BufferedReader reader = new BufferedReader( new InputStreamReader(process.getInputStream()));
-            int result = process.waitFor();
-            LOG.info("result = " + result);
-            String line = null;
-            while ((line = reader.readLine()) != null){  
-                LOG.info(line);
-            } 
-            reader.close();
+            Runtime run = Runtime.getRuntime();
+            process = run.exec(command1);
+            
+            if(process.waitFor() == 0){
+                process = run.exec(command2);
+                BufferedReader reader = new BufferedReader( new InputStreamReader(process.getInputStream()));
+                String line = null;
+                while ((line = reader.readLine()) != null){  
+                    LOG.info(line);
+                } 
+                int result = process.waitFor();
+                LOG.info("result = " + result);
+                reader.close();
+            }else{
+                LOG.info("Set permission failed");
+            }
             re.close();
         } catch (Exception e) {
             e.printStackTrace();
