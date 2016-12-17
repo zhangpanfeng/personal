@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mail {
-
+    private String name;
     private String subject;
     private String text;
     private String from;
-    // ","分割
+    // split by ","
     private String to;
     private List<String> fileList = new ArrayList<String>();
     private String type;
@@ -64,6 +64,13 @@ public class Mail {
     public void setType(String type) {
         this.type = type;
     }
-    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     
 }

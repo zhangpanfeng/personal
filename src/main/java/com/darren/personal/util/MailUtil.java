@@ -28,7 +28,7 @@ public class MailUtil {
     private static final String PASSWORD = "mail.password";
     private static final String CHARSET = "utf-8";
 
-    public static void send(Mail mail, String configPath) {
+    public static boolean send(Mail mail, String configPath) {
         Properties props = PropertiesUtil.readProperties(configPath);
         // 用刚刚设置好的props对象构建一个session
         Session session = Session.getDefaultInstance(props);
@@ -82,6 +82,10 @@ public class MailUtil {
             transport.close();
         } catch (Exception e) {
             e.printStackTrace();
+            
+            return false;
         }
+        
+        return true;
     }
 }

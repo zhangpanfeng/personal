@@ -19,7 +19,7 @@ public class BuildAction {
 
     @RequestMapping(value = "/build.do")
     public String build() {
-        LOG.info("go to build page");
+
         return "build";
     }
 
@@ -31,7 +31,6 @@ public class BuildAction {
         try {
             File scriptFile = ResourceUtils.getFile(shellScript);  
             String scriptPath = scriptFile.getAbsolutePath();
-            LOG.info("scriptPath = " + scriptPath);
             String command1 = "chmod 777 " + scriptPath;
             String command2 = "sh " + scriptPath;
             BufferedReader re = new BufferedReader( new InputStreamReader(new FileInputStream(scriptFile)));

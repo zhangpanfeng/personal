@@ -1,6 +1,7 @@
 package com.darren.personal.util;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ public class PropertiesUtil {
         InputStream in = null;
         try {
             in = new BufferedInputStream(new FileInputStream(path));
-            // 加载属性列表
+            // Load attribute list
             properties.load(in);
         } catch (Exception e) {
             LOG.info(e.getMessage());
@@ -31,6 +32,30 @@ public class PropertiesUtil {
                 }
             }
 
+        }
+
+        return properties;
+    }
+
+    public static Properties readProperties(File file) {
+        Properties properties = new Properties();
+        InputStream in = null;
+        try {
+            in = new BufferedInputStream(new FileInputStream(file));
+            // Load attribute list
+            properties.load(in);
+        } catch (Exception e) {
+            LOG.info(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    LOG.info(e.getMessage());
+                    e.printStackTrace();
+                }
+            }
         }
 
         return properties;
