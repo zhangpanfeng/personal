@@ -19,24 +19,25 @@
                     </div>
                     <form role="form" id="mailForm">
                         <div class="form-group">
-                            <label for="name">*Name</label> <input type="text" class="form-control" name="name"
-                                placeholder="Your Name">
+                            <label for="name">*Name</label> <input type="text" class="form-control"
+                                name="name" placeholder="Your Name">
                         </div>
                         <div class="form-group">
-                            <label for="email">*Email</label> <input type="text" class="form-control" name="to"
-                                placeholder="Your Email">
+                            <label for="email">*Email</label> <input type="text"
+                                class="form-control" name="to" placeholder="Your Email">
                         </div>
                         <div class="form-group">
-                            <label for="subject">*Subject</label> <input type="text" class="form-control" name="subject"
-                                placeholder="Your Subject">
+                            <label for="subject">*Subject</label> <input type="text"
+                                class="form-control" name="subject" placeholder="Your Subject">
                         </div>
                         <div class="form-group">
                             <label for="subject">*Content</label>
-                            <textarea rows="7" cols="" class="form-control" name="text" placeholder="Your Content"></textarea>
+                            <textarea rows="7" cols="" class="form-control" name="text"
+                                placeholder="Your Content"></textarea>
                         </div>
                         <button type="submit" id="sendButton" class="btn btn-default pull-right">Send</button>
                     </form>
-                    <div id="message"></div>
+                    <div id="contactMessage" class="message"></div>
                 </div>
             </div>
         </div>

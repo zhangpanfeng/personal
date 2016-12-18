@@ -18,6 +18,10 @@
         <param-name>mailConfig</param-name>
         <param-value>classpath:mail.properties</param-value>
     </context-param>
+    <context-param>
+        <param-name>securityConfig</param-name>
+        <param-value>classpath:security.properties</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
