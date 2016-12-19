@@ -46,19 +46,29 @@ function login(dialog){
         },
         success : function(data) {
             data = JSON.parse(data);
-            if(data.result == "1"){
+            if(data.result == 1){
                 //success
                 $("#signout").removeClass("hide");
                 $("#signin").addClass("hide");
                 $("#name").html(data.name);
-                $("#loginMessage").html("success");
+                $("#loginMessage").removeClass("failure");
+                $("#loginMessage").removeClass("normal");
+                $("#loginMessage").addClass("success");
+                $("#loginMessage").html("login success");
                 dialog.close();
             }else{
-                
+                $("#loginMessage").removeClass("success");
+                $("#loginMessage").removeClass("normal");
+                $("#loginMessage").addClass("failure");
+                $("#loginMessage").html("login failure");
             }
             
         },
         error : function() {
+            $("#loginMessage").removeClass("success");
+            $("#loginMessage").removeClass("normal");
+            $("#loginMessage").addClass("failure");
+            $("#loginMessage").html("login failure");
         }
     });
 }

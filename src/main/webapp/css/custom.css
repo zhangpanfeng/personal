@@ -42,3 +42,8 @@ form p {
 .hide{
     display: none;
 }
+
+.login-name{
+    color: #9d9d9d;
+    font-size: 18px;
+}
