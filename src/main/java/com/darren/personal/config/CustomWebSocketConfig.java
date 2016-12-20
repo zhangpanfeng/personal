@@ -18,7 +18,7 @@ public class CustomWebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         //setAllowedOrigins方法用来设置来自那些域名的请求可访问，默认为localhost
-        registry.addHandler(getWebSocketHandler(), "/websocket").addInterceptors(getInterceptors())
+        registry.addHandler(getWebSocketHandler(), "/websocket2").addInterceptors(getInterceptors())
                 .setAllowedOrigins("*");
 
     }
