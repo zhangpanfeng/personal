@@ -12,6 +12,7 @@
   <!--contact-->
   <div class="jumbotron">
     <div class="container">
+    <button type="button" class="btn btn-success" value="build"></button>
     <a href="execShell.html">build</a>
     </div>
     

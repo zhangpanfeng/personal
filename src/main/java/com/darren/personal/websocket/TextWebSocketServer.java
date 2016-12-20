@@ -20,15 +20,13 @@ public class TextWebSocketServer {
     private static final ConcurrentHashMap<String, TextWebSocketServer> SOCKET_MAP = new ConcurrentHashMap<String, TextWebSocketServer>();
     private Session session;
     private boolean isConnected;
-    private String key;
 
     @OnOpen
     public void onOpen(Session session) {
         this.session = session;
         this.isConnected = true;
-        key = UUID.randomUUID().toString();
-        SOCKET_MAP.put(key, this);
-        this.onMessage(key);
+        SOCKET_MAP.put(session.getId(), this);
+        this.onMessage(session.getId());
 
         System.out.println("Client connected");
     }
@@ -53,7 +51,15 @@ public class TextWebSocketServer {
     @OnClose
     public void onClose(Session session, CloseReason reason) {
         this.isConnected = false;
-        SOCKET_MAP.remove(key);
+        SOCKET_MAP.remove(session.getId());
+        if (session != null) {
+            try {
+                session.close();
+            } catch (IOException e) {
+                LOG.info(e.getMessage());
+                e.printStackTrace();
+            }
+        }
         System.out.println("Connection closed");
     }
 
@@ -63,7 +69,8 @@ public class TextWebSocketServer {
 
     /**
      * get WebSocketServer
-     * @param key 
+     * 
+     * @param key WebSocket Session Id
      * @return WebSocketServer
      */
     public static TextWebSocketServer getSocketServer(String key) {
