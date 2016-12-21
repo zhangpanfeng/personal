@@ -7,25 +7,26 @@
 <link href="css/custom.css" rel="stylesheet">
 </head>
 <body>
-  <!--header-->
-  <jsp:include page="../../header.jsp"></jsp:include>
-  <!--contact-->
-  <div class="jumbotron">
-    <div class="container">
-    <button type="button" class="btn btn-success" value="build"></button>
-    <a href="execShell.html">build</a>
-    </div>
-    
-  </div>
-  
-  <div class="container">
-  <hr>
-  </div>
-  <!-- footer -->
-  <jsp:include page="../../footer.jsp"></jsp:include>
+    <!--header-->
+    <jsp:include page="../../header.jsp"></jsp:include>
+    <!--contact-->
+    <div class="jumbotron">
+        <div class="container">
+            <button type="button" id="build" class="btn btn-success">build</button>
+            <input type="hidden" id="token" /> <a href="execShell.html">build</a>
+        </div>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="js/jquery-1.11.1.js"></script>
-  <script src="bootstrap/js/bootstrap.min.js"></script>
+    </div>
+
+    <div class="container">
+        <hr>
+    </div>
+    <!-- footer -->
+    <jsp:include page="../../footer.jsp"></jsp:include>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="js/jquery-1.11.1.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/websocket.js"></script>
 </body>
 </html>
