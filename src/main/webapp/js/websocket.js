@@ -1,15 +1,17 @@
-$("#build").click(function(){
+$("#build").click(function() {
     var websocket = initWebSocket("ws://localhost:8080/personal/textserver", cc);
-    if(websocket){
-        websocket.send("build");
+    if (websocket) {
+        //websocket.send("build");
     }
 });
 
-function cc(xx){
+function cc(xx) {
     console.log(xx);
+    var log = $("#log");
+    log.appendChild("<span>" + xx + "</span>");
 }
 
-function build(token){
+function build(token) {
     $.ajax({
         type : "POST",
         url : "execShell.html",
@@ -17,8 +19,8 @@ function build(token){
         datatype : "json",// "xml", "html", "script", "json", "jsonp", "text".
         success : function(data) {
             data = JSON.parse(data);
-            if(data.result == 1){
-                //success
+            if (data.result == 1) {
+                // success
                 $("#signout").removeClass("hide");
                 $("#signin").addClass("hide");
                 $("#name").html(data.name);
@@ -27,13 +29,13 @@ function build(token){
                 $("#loginMessage").addClass("success");
                 $("#loginMessage").html("login success");
                 dialog.close();
-            }else{
+            } else {
                 $("#loginMessage").removeClass("success");
                 $("#loginMessage").removeClass("normal");
                 $("#loginMessage").addClass("failure");
                 $("#loginMessage").html("login failure");
             }
-            
+
         },
         error : function() {
             $("#loginMessage").removeClass("success");
@@ -44,7 +46,7 @@ function build(token){
     });
 }
 
-//init WebSocket
+// init WebSocket
 function initWebSocket(wcUrl, callBack) {
     if (window.WebSocket) {
         var websocket = new WebSocket(encodeURI(wcUrl));
@@ -59,26 +61,29 @@ function initWebSocket(wcUrl, callBack) {
     }
 };
 
-//open
-function doOpen(){
+// open
+function doOpen() {
+    console.log("doOpen");
+    this.send("build");
+}
+
+// close
+function doClose() {
     console.log("doOpen");
 }
 
-//close
-function doClose(){
-    console.log("doOpen");
-}
-
-//error
+// error
 function doError() {
     console.log("doOpen");
 }
 
-//receive message
-function doMessage(message){
+// receive message
+function doMessage(message) {
     console.log("doMessage");
     console.log(message.data);
-    this.callBack("ss");
-//    callBack(message);
+   // this.callBack("ss");
+    var log = $("#log");
+    
+    log.append($("<div>" + message.data + "</div>"));
+    // callBack(message);
 }
-

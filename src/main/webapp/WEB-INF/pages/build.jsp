@@ -13,9 +13,9 @@
     <div class="jumbotron">
         <div class="container">
             <button type="button" id="build" class="btn btn-success">build</button>
-            <input type="hidden" id="token" /> <a href="execShell.html">build</a>
         </div>
 
+        <div class="container" id="log" style="margin-top: 20px;"></div>
     </div>
 
     <div class="container">

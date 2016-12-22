@@ -35,6 +35,9 @@ public class TextWebSocketServer {
     public void onMessage(String message) {
         if (this.session != null) {
             try {
+                for(int i = 0; i < 10; i++){
+                    session.getBasicRemote().sendText("HELLO WORLD HELLO WORLD how are you ? -------- ======== ???????? HELLO WORLD HELLO WORLD how are you HELLO WORLD HELLO WORLD how are youHELLO WORLD HELLO WORLD how are you");
+                }
                 session.getBasicRemote().sendText(message);
             } catch (IOException e) {
                 LOG.info(e.getMessage());

@@ -1,6 +1,5 @@
 package com.darren.personal.action;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -39,10 +38,29 @@ public class LoginAction {
             properties = PropertiesUtil.readProperties(ResourceUtils.getFile(securityConfig).getAbsolutePath());
             if (properties.getProperty(USERNAME).equals(user.getUserName())
                     && properties.getProperty(PASSWORD).equals(user.getPassword())) {
-                map.put("name", properties.getProperty(NAME));
+                user.setName(properties.getProperty(NAME));
+                request.getSession().setAttribute("user", user);
+                map.put("name", user.getName());
                 map.put("result", StateCode.SUCCESS);
             }
 
+            result = MAPPER.writeValueAsString(map);
+        } catch (Exception e) {
+            LOG.info(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/logout.do")
+    public String logout(ModelMap model, HttpServletRequest request) {
+        String result = null;
+        Map<String, Object> map = new HashMap<String, Object>();
+        request.getSession().removeAttribute("user");
+        map.put("result", StateCode.SUCCESS);
+        try {
             result = MAPPER.writeValueAsString(map);
         } catch (Exception e) {
             LOG.info(e.getMessage());

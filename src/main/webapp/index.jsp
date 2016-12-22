@@ -4,18 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Panfeng.info</title>
-<link rel="shortcut icon" href="http://panfeng.info/images/favicon.ico" />
-<!-- Bootstrap core CSS -->
-<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-<!-- Bootstrap core CSS -->
-<link href="bootstrap/css/bootstrap-dialog.css" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="css/custom.css" rel="stylesheet">
 </head>
 <body>
   <!-- header -->
   <jsp:include page="header.jsp"></jsp:include>
-
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
@@ -76,11 +68,5 @@
 
   <!-- footer -->
   <jsp:include page="footer.jsp"></jsp:include>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="js/jquery-1.11.1.js"></script>
-  <script src="bootstrap/js/bootstrap.js"></script>
-    <script src="bootstrap/js/bootstrap-dialog.js"></script>
-        <script src="js/login.js"></script>
 </body>
 </html>

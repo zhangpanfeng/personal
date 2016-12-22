@@ -4,6 +4,12 @@ $("#signin").click(function(){
     return false;
 });
 
+$("#signout").click(function(){
+    logout();
+
+    return false;
+});
+
 function showLogin(){
     BootstrapDialog.show({
         title: 'Login',
@@ -69,6 +75,29 @@ function login(dialog){
             $("#loginMessage").removeClass("normal");
             $("#loginMessage").addClass("failure");
             $("#loginMessage").html("login failure");
+        }
+    });
+}
+
+function logout(){
+    $.ajax({
+        type : "GET",
+        url : "logout.html",
+        datatype : "json",
+        success : function(data) {
+            data = JSON.parse(data);
+            if(data.result == 1){
+                //success
+                $("#signin").removeClass("hide");
+                $("#signout").addClass("hide");
+                $("#name").html("");
+            }else{
+                alert("log out failure");
+            }
+            
+        },
+        error : function() {
+            alert("log out failure");
         }
     });
 }
