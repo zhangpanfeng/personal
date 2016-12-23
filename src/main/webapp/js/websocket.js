@@ -1,6 +1,7 @@
 $("#build").click(function() {
     var messageNode = $("#log");
-    var websocket = initWebSocket("ws://localhost:8080/personal/textserver", build, showMessage, messageNode);
+    //var websocket = initWebSocket("ws://localhost:8080/personal/textserver", build, showMessage, messageNode);
+    var websocket = initWebSocket("ws://panfeng.info/textserver", build, showMessage, messageNode);
 //    if (websocket) {
 //        //websocket.send("build");
 //    }
