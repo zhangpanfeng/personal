@@ -87,6 +87,7 @@ public class BuildAction {
             LOG.error(e.getMessage());
         }
 
+        webSocketServer.onClose();
         map.put("result", StateCode.SUCCESS);
         try {
             result = MAPPER.writeValueAsString(map);

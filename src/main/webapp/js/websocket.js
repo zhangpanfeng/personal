@@ -71,12 +71,12 @@ function doOpen() {
 
 // close
 function doClose() {
-    console.log("doOpen");
+    console.log("doClose");
 }
 
 // error
 function doError() {
-    console.log("doOpen");
+    console.log("doError");
 }
 
 // receive message

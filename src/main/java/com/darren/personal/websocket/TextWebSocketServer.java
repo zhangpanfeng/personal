@@ -19,6 +19,7 @@ public class TextWebSocketServer {
     private static final Logger LOG = Logger.getLogger(TextWebSocketServer.class);
     private static final ConcurrentHashMap<String, TextWebSocketServer> SOCKET_MAP = new ConcurrentHashMap<String, TextWebSocketServer>();
     private static final String TOKEN = "token:";
+    private String token;
     private Session session;
     private boolean isConnected;
 
@@ -26,7 +27,7 @@ public class TextWebSocketServer {
     public void onOpen(Session session) {
         this.session = session;
         this.isConnected = true;
-        String token = UUID.randomUUID().toString();
+        token = UUID.randomUUID().toString();
         SOCKET_MAP.put(token, this);
         this.onMessage(TOKEN + token);
 
@@ -51,9 +52,9 @@ public class TextWebSocketServer {
     }
 
     @OnClose
-    public void onClose(Session session, CloseReason reason) {
+    public void onClose() {
         this.isConnected = false;
-        SOCKET_MAP.remove(session.getId());
+        SOCKET_MAP.remove(token);
         if (session != null) {
             try {
                 session.close();
