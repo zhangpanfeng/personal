@@ -1,22 +1,21 @@
 $("#build").click(function() {
-    var websocket = initWebSocket("ws://localhost:8080/personal/textserver", cc);
-    if (websocket) {
-        //websocket.send("build");
-    }
+    var messageNode = $("#log");
+    var websocket = initWebSocket("ws://localhost:8080/personal/textserver", build, showMessage, messageNode);
+//    if (websocket) {
+//        //websocket.send("build");
+//    }
 });
 
-function cc(xx) {
-    console.log(xx);
-    var log = $("#log");
-    log.appendChild("<span>" + xx + "</span>");
+function showMessage(data, messageNode) {
+    messageNode.append("<div>" + data + "</div>");
 }
 
 function build(token) {
     $.ajax({
         type : "POST",
         url : "execShell.html",
-        data : token,
-        datatype : "json",// "xml", "html", "script", "json", "jsonp", "text".
+        data : "token=" + token,
+        datatype : "json",
         success : function(data) {
             data = JSON.parse(data);
             if (data.result == 1) {
@@ -47,14 +46,17 @@ function build(token) {
 }
 
 // init WebSocket
-function initWebSocket(wcUrl, callBack) {
+function initWebSocket(wcUrl, tokenCallBack, messageCallBack, messageNode) {
     if (window.WebSocket) {
         var websocket = new WebSocket(encodeURI(wcUrl));
         websocket.onopen = doOpen;
         websocket.onerror = doError;
         websocket.onclose = doClose;
         websocket.onmessage = doMessage;
-        websocket.callBack = callBack;
+        websocket.tokenCallBack = tokenCallBack;
+        websocket.messageCallBack = messageCallBack;
+        websocket.messageNode = messageNode;
+        
         return websocket;
     } else {
         console.log("Your device doesn't support WebScoket");
@@ -64,7 +66,6 @@ function initWebSocket(wcUrl, callBack) {
 // open
 function doOpen() {
     console.log("doOpen");
-    this.send("build");
 }
 
 // close
@@ -80,10 +81,10 @@ function doError() {
 // receive message
 function doMessage(message) {
     console.log("doMessage");
-    console.log(message.data);
-   // this.callBack("ss");
-    var log = $("#log");
-    
-    log.append($("<div>" + message.data + "</div>"));
-    // callBack(message);
+    if(this.tokenCallBack && message.data.startsWith("token")){
+        var token = message.data.substring(message.data.indexOf(":") + 1, message.data.length);
+        this.tokenCallBack(token);
+    }else if(this.messageCallBack){
+        this.messageCallBack(message.data, this.messageNode);
+    }
 }

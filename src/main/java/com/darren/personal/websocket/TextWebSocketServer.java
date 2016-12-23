@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 public class TextWebSocketServer {
     private static final Logger LOG = Logger.getLogger(TextWebSocketServer.class);
     private static final ConcurrentHashMap<String, TextWebSocketServer> SOCKET_MAP = new ConcurrentHashMap<String, TextWebSocketServer>();
+    private static final String TOKEN = "token:";
     private Session session;
     private boolean isConnected;
 
@@ -25,8 +26,9 @@ public class TextWebSocketServer {
     public void onOpen(Session session) {
         this.session = session;
         this.isConnected = true;
-        SOCKET_MAP.put(session.getId(), this);
-        this.onMessage(session.getId());
+        String token = UUID.randomUUID().toString();
+        SOCKET_MAP.put(token, this);
+        this.onMessage(TOKEN + token);
 
         System.out.println("Client connected");
     }
@@ -35,9 +37,6 @@ public class TextWebSocketServer {
     public void onMessage(String message) {
         if (this.session != null) {
             try {
-                for(int i = 0; i < 10; i++){
-                    session.getBasicRemote().sendText("HELLO WORLD HELLO WORLD how are you ? -------- ======== ???????? HELLO WORLD HELLO WORLD how are you HELLO WORLD HELLO WORLD how are youHELLO WORLD HELLO WORLD how are you");
-                }
                 session.getBasicRemote().sendText(message);
             } catch (IOException e) {
                 LOG.info(e.getMessage());

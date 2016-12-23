@@ -10,14 +10,19 @@
             <a href="contact.html">Contact Me</a>
         </div>
         <c:if test="${user != null}">
-        <div class="pull-right col-lg-4" id="buildLink">
-            <a href="build.html">Build</a>
-        </div>
+            <div class="pull-right col-lg-4" id="buildLink">
+                <a href="build.html">Build</a>
+            </div>
+        </c:if>
+        <c:if test="${user == null}">
+            <div class="pull-right col-lg-4 hide" id="buildLink">
+                <a href="build.html">Build</a>
+            </div>
         </c:if>
         <div class="pull-left col-lg-4">
             <p>&copy; 2016</p>
         </div>
-        
+
     </footer>
 </div>
 <!-- Bootstrap core JavaScript -->

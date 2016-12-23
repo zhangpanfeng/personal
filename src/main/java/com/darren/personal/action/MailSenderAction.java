@@ -27,6 +27,8 @@ public class MailSenderAction {
     private static final String MAIL_FROM = "mail.username";
     private static final String MAIL_SUBJECT = "mail.me.subject";
     private static final String TEXT_SUFFIX = "mail.me.textSuffix";
+    private static final String TO_ME = "mail.me.to";
+    
 
     @ResponseBody
     @RequestMapping(value = "/sendmail.do")
@@ -45,6 +47,7 @@ public class MailSenderAction {
         Properties properties = PropertiesUtil.readProperties(configPath);
         // send to others
         mail.setFrom(properties.getProperty(MAIL_FROM));
+        mail.setSubject("Re: " + mail.getSubject());
         mail.setText(MessageFormat.format(properties.getProperty(REPLY_TEXT), mail.getName()));
         mail.setType(Mail.Type.HTML.toString());
         boolean result = MailUtil.send(mail, configPath);
@@ -54,6 +57,7 @@ public class MailSenderAction {
             mail.setSubject(MessageFormat.format(properties.getProperty(MAIL_SUBJECT), mail.getName(),
                     DateUtil.getString(new Date())));
             mail.setType(Mail.Type.PLAIN.toString());
+            mail.setTo(properties.getProperty(TO_ME));
             mail.setText(text + MessageFormat.format(properties.getProperty(TEXT_SUFFIX), mail.getTo()));
             result = MailUtil.send(mail, configPath);
         }

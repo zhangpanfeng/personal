@@ -54,6 +54,8 @@ function login(dialog){
             data = JSON.parse(data);
             if(data.result == 1){
                 //success
+                $("#buildLink").removeClass("hide");
+                
                 $("#signout").removeClass("hide");
                 $("#signin").addClass("hide");
                 $("#name").html(data.name);
@@ -88,6 +90,8 @@ function logout(){
             data = JSON.parse(data);
             if(data.result == 1){
                 //success
+                $("#buildLink").addClass("hide");
+                
                 $("#signin").removeClass("hide");
                 $("#signout").addClass("hide");
                 $("#name").html("");

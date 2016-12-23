@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.darren.personal.constant.StateCode;
+import com.darren.personal.entity.User;
 import com.darren.personal.websocket.TextWebSocketServer;
 
 @Controller
@@ -27,19 +28,14 @@ public class BuildAction {
     private static final String SCRIPT_PATH = "shellScript";
 
     @RequestMapping(value = "/build.do")
-    public String build() {
-
+    public String build(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
         return "build";
     }
 
-    @ResponseBody
-    public void test(String token){
-        TextWebSocketServer webSocketServer = TextWebSocketServer.getSocketServer(token);
-        for(int i = 0; i < 3; i++){
-            
-        }
-    }
-    
     @ResponseBody
     @RequestMapping(value = "/execShell.do")
     public String execShell(HttpServletRequest request, String token) {
@@ -78,7 +74,7 @@ public class BuildAction {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 String line = null;
                 while ((line = reader.readLine()) != null) {
-                    LOG.info(line);
+                    webSocketServer.onMessage(line);
                 }
                 LOG.info("result = " + process.waitFor());
                 reader.close();
