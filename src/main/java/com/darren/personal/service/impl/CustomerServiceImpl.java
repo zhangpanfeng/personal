@@ -1,4 +1,4 @@
-package com.darren.personal.dao.impl;
+package com.darren.personal.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +18,22 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDao customerDao;
 
     @Override
-    public String insert(Customer customer) {
-        String result = customerDao.insert(customer);
+    public int insert(Customer customer) {
+        int result = customerDao.insert(customer);
 
         return result;
     }
 
     @Override
-    public String updateByParameter(Customer customer) {
-        String result = customerDao.updateByParameter(customer);
+    public int updateByParameter(Customer customer) {
+        int result = customerDao.updateByParameter(customer);
 
         return result;
     }
 
     @Override
-    public String deleteById(Customer customer) {
-        String result = customerDao.deleteById(customer);
+    public int deleteById(Customer customer) {
+        int result = customerDao.deleteById(customer);
 
         return result;
     }

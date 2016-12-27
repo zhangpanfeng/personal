@@ -11,7 +11,7 @@ public interface CustomerDao {
      * @param customer
      * @return
      */
-    public String insert(Customer customer);
+    public int insert(Customer customer);
 
     /**
      * update customer by parameter
@@ -19,7 +19,7 @@ public interface CustomerDao {
      * @param customer
      * @return
      */
-    public String updateByParameter(Customer customer);
+    public int updateByParameter(Customer customer);
 
     /**
      * delete customer by id
@@ -27,7 +27,7 @@ public interface CustomerDao {
      * @param customer
      * @return
      */
-    public String deleteById(Customer customer);
+    public int deleteById(Customer customer);
 
     /**
      * select customer list by parameter

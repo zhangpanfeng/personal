@@ -2,6 +2,8 @@ package com.darren.personal.entity;
 
 import java.util.Date;
 
+import com.darren.personal.util.DateUtil;
+
 public class Customer {
 
     private String phone;
@@ -16,7 +18,8 @@ public class Customer {
      * Y:send N:not send
      */
     private String emailState;
-    private Date sendTIme;
+    private Date sendTime;
+    private String stringSendTime;
     /**
      * Y:pay N:not pay
      */
@@ -72,12 +75,12 @@ public class Customer {
         this.emailState = emailState;
     }
 
-    public Date getSendTIme() {
-        return sendTIme;
+    public Date getSendTime() {
+        return sendTime;
     }
 
-    public void setSendTIme(Date sendTIme) {
-        this.sendTIme = sendTIme;
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
     }
 
     public String getPayState() {
@@ -104,4 +107,19 @@ public class Customer {
         this.deleteTime = deleteTime;
     }
 
+    public String getStringSendTime() {
+        Date sendTime = this.getSendTime();
+        if (sendTime != null) {
+            this.stringSendTime = DateUtil.getString("yyyy-MM-dd HH:mm", sendTime);
+        }
+
+        return stringSendTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer [phone=" + phone + ", name=" + name + ", age=" + age + ", gender=" + gender + ", comment="
+                + comment + ", emailState=" + emailState + ", sendTime=" + getStringSendTime() + ", payState="
+                + payState + ", createTime=" + createTime + ", deleteTime=" + deleteTime + "]";
+    }
 }

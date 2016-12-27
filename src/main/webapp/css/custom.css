@@ -55,3 +55,11 @@ form p {
 .jumbotron{
     padding: 20px 0;
 }
+
+.odd-line{
+    background-color: #FFFFFF;
+}
+
+.even-line{
+    background-color: #F8F8F8;
+}

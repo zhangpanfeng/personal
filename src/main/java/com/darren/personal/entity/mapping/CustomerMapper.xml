@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.darren.personal.entity.mapping.CustomerMapper">
+<mapper namespace="com.darren.personal.dao.CustomerDao">
     <resultMap id="BaseResultMap" type="com.darren.personal.entity.Customer">
-        <id column="phone" property="PHONE" jdbcType="VARCHAR" />
-        <result column="name" property="NAME" jdbcType="VARCHAR" />
-        <result column="age" property="AGE" jdbcType="SMALLINT" />
-        <result column="gender" property="GENDER" jdbcType="CHAR" />
-        <result column="comment" property="COMMENT" jdbcType="VARCHAR" />
-        <result column="emailState" property="EMAIL_STATE" jdbcType="CHAR" />
-        <result column="sendTIme" property="SEND_TIME" jdbcType="TIMESTAMP" />
-        <result column="payState" property="PAY_STATE" jdbcType="CHAR" />
-        <result column="createTime" property="CREATE_TIME" jdbcType="TIMESTAMP" />
-        <result column="deleteTime" property="DELETE_TIME" jdbcType="TIMESTAMP" />
+        <id column="PHONE" property="phone" jdbcType="VARCHAR" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="AGE" property="age" jdbcType="SMALLINT" />
+        <result column="GENDER" property="gender" jdbcType="CHAR" />
+        <result column="COMMENT" property="comment" jdbcType="VARCHAR" />
+        <result column="EMAIL_STATE" property="emailState" jdbcType="CHAR" />
+        <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+        <result column="PAY_STATE" property="payState" jdbcType="CHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+        <result column="DELETE_TIME" property="deleteTime" jdbcType="DATE" />
     </resultMap>
     <insert id="insert" parameterType="com.darren.personal.entity.Customer">
         insert into customer
@@ -34,7 +34,7 @@
             <if test="emailState != null">
                 EMAIL_STATE,
             </if>
-            <if test="sendTIme != null">
+            <if test="sendTime != null">
                 SEND_TIME,
             </if>
             <if test="payState != null">
@@ -49,34 +49,34 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="phone != null">
-                #{PHONE,jdbcType=VARCHAR},
+                #{phone,jdbcType=VARCHAR},
             </if>
             <if test="name != null">
-                #{NAME,jdbcType=VARCHAR},
+                #{name,jdbcType=VARCHAR},
             </if>
             <if test="age != 0">
-                #{AGE,jdbcType=SMALLINT},
+                #{age,jdbcType=SMALLINT},
             </if>
             <if test="gender != null">
-                #{GENDER,jdbcType=CHAR},
+                #{gender,jdbcType=CHAR},
             </if>
             <if test="comment != null">
-                #{COMMENT,jdbcType=VARCHAR},
+                #{comment,jdbcType=VARCHAR},
             </if>
             <if test="emailState != null">
-                #{EMAIL_STATE,jdbcType=CHAR},
+                #{emailState,jdbcType=CHAR},
             </if>
-            <if test="sendTIme != null">
-                #{SEND_TIME,jdbcType=TIMESTAMP},
+            <if test="sendTime != null">
+                #{sendTime,jdbcType=TIMESTAMP},
             </if>
             <if test="payState != null">
-                #{PAY_STATE,jdbcType=CHAR},
+                #{payState,jdbcType=CHAR},
             </if>
             <if test="createTime != null">
-                #{CREATE_TIME,jdbcType=TIMESTAMP},
+                #{createTime,jdbcType=DATE},
             </if>
             <if test="deleteTime != null">
-                #{DELETE_TIME,jdbcType=TIMESTAMP},
+                #{deleteTime,jdbcType=DATE},
             </if>
         </trim>
     </insert>
@@ -84,40 +84,39 @@
         update customer
         <set>
             <if test="name != null">
-                NAME = #{NAME,jdbcType=VARCHAR},
+                NAME = #{name,jdbcType=VARCHAR},
             </if>
             <if test="age != 0">
-                AGE = #{AGE,jdbcType=SMALLINT},
+                AGE = #{age,jdbcType=SMALLINT},
             </if>
             <if test="gender != null">
-                GENDER = #{GENDER,jdbcType=CHAR},
+                GENDER = #{gender,jdbcType=CHAR},
             </if>
             <if test="comment != null">
-                COMMENT = #{COMMENT,jdbcType=VARCHAR},
+                COMMENT = #{comment,jdbcType=VARCHAR},
             </if>
             <if test="emailState != null">
-                EMAIL_STATE = #{EMAIL_STATE,jdbcType=CHAR},
+                EMAIL_STATE = #{emailState,jdbcType=CHAR},
             </if>
-            <if test="sendTIme != null">
-                SEND_TIME = #{SEND_TIME,jdbcType=TIMESTAMP},
+            <if test="sendTime != null">
+                SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
             </if>
             <if test="payState != null">
-                PAY_STATE = #{PAY_STATE,jdbcType=CHAR},
+                PAY_STATE = #{payState,jdbcType=CHAR},
             </if>
             <if test="createTime != null">
-                CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+                CREATE_TIME = #{createTime,jdbcType=DATE},
             </if>
             <if test="deleteTime != null">
-                DELETE_TIME = #{DELETE_TIME,jdbcType=TIMESTAMP},
+                DELETE_TIME = #{deleteTime,jdbcType=DATE},
             </if>
         </set>
-        where PHONE = #{PHONE,jdbcType=VARCHAR}
+        where PHONE = #{phone,jdbcType=VARCHAR}
     </update>
     <update id="deleteById" parameterType="com.darren.personal.entity.Customer">
         update customer
-        set DELETE_TIME =
-        #{DELETE_TIME,jdbcType=TIMESTAMP}
-        where where PHONE = #{PHONE,jdbcType=VARCHAR}
+        set DELETE_TIME = #{deleteTime,jdbcType=DATE}
+        where where PHONE = #{phone,jdbcType=VARCHAR}
     </update>
 
     <select id="selectAll" resultMap="BaseResultMap">
@@ -129,37 +128,36 @@
         select PHONE, NAME,AGE, GENDER, COMMENT, EMAIL_STATE,
         SEND_TIME, PAY_STATE, CREATE_TIME, DELETE_TIME
         from customer
-        <where>
+        where 1 = 1
          <if test="phone != null">
-                #{PHONE,jdbcType=VARCHAR},
+               and PHONE = #{phone,jdbcType=VARCHAR}
             </if>
             <if test="name != null">
-                #{NAME,jdbcType=VARCHAR},
+                and NAME = #{name,jdbcType=VARCHAR}
             </if>
             <if test="age != 0">
-                #{AGE,jdbcType=SMALLINT},
+                and AGE = #{age,jdbcType=SMALLINT}
             </if>
             <if test="gender != null">
-                #{GENDER,jdbcType=CHAR},
+                and GENDER = #{gender,jdbcType=CHAR}
             </if>
             <if test="comment != null">
-                #{COMMENT,jdbcType=VARCHAR},
+                and COMMENT = #{comment,jdbcType=VARCHAR}
             </if>
             <if test="emailState != null">
-                #{EMAIL_STATE,jdbcType=CHAR},
+                and EMAIL_STATE = #{emailState,jdbcType=CHAR}
             </if>
-            <if test="sendTIme != null">
-                #{SEND_TIME,jdbcType=TIMESTAMP},
+            <if test="sendTime != null">
+                and SEND_TIME = #{sendTime,jdbcType=TIMESTAMP}
             </if>
             <if test="payState != null">
-                #{PAY_STATE,jdbcType=CHAR},
+                and PAY_STATE = #{payState,jdbcType=CHAR}
             </if>
             <if test="createTime != null">
-                #{CREATE_TIME,jdbcType=TIMESTAMP},
+                and CREATE_TIME = #{createTime,jdbcType=DATE}
             </if>
             <if test="deleteTime != null">
-                #{DELETE_TIME,jdbcType=TIMESTAMP},
+                and DELETE_TIME = #{deleteTime,jdbcType=DATE}
             </if>
-        </where>
     </select>
 </mapper>

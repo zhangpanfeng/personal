@@ -1,6 +1,7 @@
 package com.darren.personal.service;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -22,12 +23,42 @@ public class CustomerServiceTest {
     @Test
     public void testInsert() {
         Customer customer = new Customer();
-        customer.setPhone("18321353610");
-        customer.setName("Darren Zhang");
+        customer.setPhone("18321353612");
+        customer.setName("张攀峰");
         customer.setAge(18);
         customer.setGender("M");
         customer.setCreateTime(new Date());
-        String result = customerService.insert(customer);
+        customer.setSendTime(new Date());
+        customer.setEmailState("N");
+        customer.setComment("这是备注");
+        int result = customerService.insert(customer);
         System.out.println(result);
+    }
+    
+    @Test
+    public void testSelectAll(){
+      List<Customer> list = customerService.selectAll();
+      for(Customer customer : list){
+          System.out.println(customer);
+      }
+    }
+    
+    @Test
+    public void testSelectByParameter(){
+        Customer p = new Customer();
+        p.setName("Darren Zhang");
+      List<Customer> list = customerService.selectByParameter(p);
+      for(Customer customer : list){
+          System.out.println(customer);
+      }
+    }
+    
+    @Test
+    public void testUpdateByParameter(){
+        Customer p = new Customer();
+        p.setPhone("18321353610");
+        p.setSendTime(new Date());
+        p.setEmailState("Y");
+        int result = customerService.updateByParameter(p);
     }
 }
