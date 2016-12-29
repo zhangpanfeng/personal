@@ -13,6 +13,7 @@ $("#signout").click(function(){
 function showLogin(){
     BootstrapDialog.show({
         title: 'Login',
+        //draggable: true,
         message: function(dialog) {
             var $message = $('<div></div>');
             var pageToLoad = dialog.getData('pageToLoad');

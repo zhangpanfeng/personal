@@ -7,6 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Contact Me</title>
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/theme/cupertino/jquery-ui.css" rel="stylesheet">
+<link href="css/theme/cupertino/theme.css" rel="stylesheet">
 <link href="css/custom.css" rel="stylesheet">
 </head>
 <body>
@@ -46,7 +48,7 @@
             </td>
             <td>${customer.stringSendTime}</td>
             <td>${customer.comment}</td>
-            <td><button type="button" class="btn btn-success">预定</button>&nbsp;&nbsp;
+            <td><button type="button" class="btn btn-success book">预定</button>&nbsp;&nbsp;
             <button type="button" class="btn btn-info">查看</button>&nbsp;&nbsp;
             <button type="button" class="btn btn-warning">修改</button>&nbsp;&nbsp;
             <button type="button" class="btn btn-danger">删除</button></td>
@@ -60,14 +62,44 @@
     </div>
 
     <div class="container">
+    <select id="selectHour" >
+    <option>01</option>
+    <option>02</option>
+    <option>03</option>
+    <option>04</option>
+    <option>05</option>
+        <option>06</option>
+    <option>07</option>
+    <option>08</option>
+    <option>09</option>
+    <option>10</option>
+        <option>11</option>
+    <option>12</option>
+    <option>13</option>
+    <option>14</option>
+    <option>15</option>
+        <option>16</option>
+    <option>17</option>
+    <option>18</option>
+    <option>19</option>
+    <option>20</option>
+        <option>21</option>
+    <option>22</option>
+    <option>23</option>
+    <option>24</option>
+</select>
+    <select id="selectMinute" style="width: 150px;">
+        <option>00</option>
+    <option>30</option>
+</select>
         <hr>
     </div>
     <!-- footer -->
     <jsp:include page="../../footer.jsp"></jsp:include>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="js/jquery-1.11.1.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/websocket.js"></script>
+
+    <script src="js/jquery-ui-1.11.1.js"></script>
+    <script src="js/custom-dropdown.js"></script>
+    <script src="js/editCustomer.js"></script>
 </body>
 </html>
