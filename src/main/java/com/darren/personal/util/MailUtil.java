@@ -27,56 +27,55 @@ public class MailUtil {
     private static final String UAERNAME = "mail.username";
     private static final String PASSWORD = "mail.password";
     private static final String CHARSET = "utf-8";
+    private static final String MAIL_FROM = "mail.username";
 
     public static boolean send(Mail mail, String configPath) {
         Properties props = PropertiesUtil.readProperties(configPath);
-        // 用刚刚设置好的props对象构建一个session
+        // create a session using Properties attributes
         Session session = Session.getDefaultInstance(props);
-        // 有了这句便可以在发送邮件的过程中在console处显示过程信息，供调试使
-        // 用（你可以在控制台（console)上看到发送邮件的过程）
+        // debug mode, can see the log information in console
         session.setDebug(true);
         Message message = new MimeMessage(session);
 
         try {
-            // 加载发件人地址
-            message.setFrom(new InternetAddress(mail.getFrom()));
-            // 加载收件人地址
+            // configure sender email address
+            message.setFrom(new InternetAddress(props.getProperty(MAIL_FROM)));
+            //  configure receiver email address
             message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getTo()));
-            // 加载标题
+            // configure title
             message.setSubject(mail.getSubject());
-
-            // 向multipart对象中添加邮件的各个部分内容，包括文本内容和附件
+            // create MimeMultipart object to add every part of email
             Multipart multipart = new MimeMultipart();
 
-            // 设置邮件的文本内容
+            // set email content
             MimeBodyPart contentPart = new MimeBodyPart();
             contentPart.setText(mail.getText(), CHARSET, mail.getType().toLowerCase());
             multipart.addBodyPart(contentPart);
 
-            // 添加附件
+            // add attachment 
             for (String filePath : mail.getFileList()) {
                 String fileName = "";
                 BodyPart fileBodyPart = new MimeBodyPart();
                 DataSource source = new FileDataSource(filePath);
 
-                // 添加附件的内容
+                // add attachment content
                 fileBodyPart.setDataHandler(new DataHandler(source));
-                // 添加附件的标题
+                // add attachment title
                 fileBodyPart.setFileName(MimeUtility.encodeText(fileName));
                 multipart.addBodyPart(fileBodyPart);
             }
 
-            // 将multipart对象放到message中
+            // add MimeMultipart objec to message
             message.setContent(multipart);
             // message.setContent(content.toString(),
             // "text/html;charset=utf-8");
-            // 保存邮件
+            // save email
             message.saveChanges();
-            // 发送邮件
+            // configure email protocol
             Transport transport = session.getTransport(PROTOCOL);
-            // 连接服务器的邮箱
+            // connect email server
             transport.connect(props.getProperty(HOST), props.getProperty(UAERNAME), props.getProperty(PASSWORD));
-            // 把邮件发送出去
+            // send the message out
             transport.sendMessage(message, message.getAllRecipients());
             LOG.info("Mail send success!");
             transport.close();

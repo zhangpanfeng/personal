@@ -16,16 +16,23 @@ function sendMail() {
             $("#contactMessage").html("You email are sending ... ");
         },
         success : function(data) {
-            $("#contactMessage").removeClass("normal");
-            $("#contactMessage").removeClass("failure");
-            $("#contactMessage").addClass("success");
-            $("#contactMessage").html(data);
+            if(data.result == 1){
+                $("#contactMessage").removeClass("normal");
+                $("#contactMessage").removeClass("failure");
+                $("#contactMessage").addClass("success");
+                $("#contactMessage").html("success");
+            }else{
+                $("#contactMessage").removeClass("normal");
+                $("#contactMessage").removeClass("success");
+                $("#contactMessage").addClass("failure");
+                $("#contactMessage").html("failure");
+            }
         },
         error : function() {
             $("#contactMessage").removeClass("normal");
             $("#contactMessage").removeClass("success");
             $("#contactMessage").addClass("failure");
-            $("#contactMessage").html("error");
+            $("#contactMessage").html("failure");
         }
     });
 

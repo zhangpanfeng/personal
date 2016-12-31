@@ -5,7 +5,7 @@ import java.util.Date;
 import com.darren.personal.util.DateUtil;
 
 public class Customer {
-
+    private int id;
     private String phone;
     private String name;
     private int age;
@@ -27,12 +27,23 @@ public class Customer {
     private Date createTime;
     private Date deleteTime;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
+        if(this.phone != null){
+            this.phone = this.phone.trim();
+        }
     }
 
     public String getName() {
@@ -41,6 +52,9 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+        if(this.name != null){
+            this.name = this.name.trim();
+        }
     }
 
     public String getComment() {
@@ -112,8 +126,15 @@ public class Customer {
         if (sendTime != null) {
             this.stringSendTime = DateUtil.getString("yyyy-MM-dd HH:mm", sendTime);
         }
+        if(this.stringSendTime == null){
+            this.stringSendTime = "";
+        }
 
         return stringSendTime;
+    }
+
+    public void setStringSendTime(String stringSendTime) {
+        this.sendTime = DateUtil.getDate(stringSendTime);
     }
 
     @Override

@@ -43,4 +43,13 @@ public interface CustomerDao {
      * @return
      */
     public List<Customer> selectAll();
+
+    /**
+     * select customer by id
+     * 
+     * @param id
+     *            primary key
+     * @return Customer
+     */
+    public Customer selectByPrimaryKey(int id);
 }

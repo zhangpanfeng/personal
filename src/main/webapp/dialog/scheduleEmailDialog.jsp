@@ -19,6 +19,11 @@
         <label for="name">时间</label>
         <input id="timespinner" class="times-pinner" name="timespinner" value="08:30">
     </div>
+    <div class="form-group">
+        <input type="hidden" id="customerId" name="id">
+        <input type="hidden" id="stringSendTime" name="stringSendTime">
+        <input type="hidden" name="emailState" value="Y">
+    </div>
     <div id="editCustomerMessage" class="col-center-block message clear normal">加载中...</div>
 </form>
 <script src="js/globalize.js" type="text/javascript"></script>

@@ -8,6 +8,8 @@
 <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 <!-- Bootstrap core CSS -->
 <link href="bootstrap/css/bootstrap-dialog.css" rel="stylesheet">
+<link href="css/theme/cupertino/jquery-ui.css" rel="stylesheet">
+<link href="css/theme/cupertino/theme.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="css/custom.css" rel="stylesheet">
 </head>

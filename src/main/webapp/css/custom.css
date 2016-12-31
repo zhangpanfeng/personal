@@ -106,3 +106,24 @@ form p {
     width: 260px;
     height: 34px;
 }
+
+.checkbox{
+    width: 20px;
+    height: 20px;
+    display: inline;
+    vertical-align: initial;
+    left: 10px;
+}
+
+.green{
+    color: #006000;
+}
+
+.red{
+    color: #FF0000;
+}
+
+button{
+    margin-left: 10px;
+}
+

@@ -3,8 +3,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Contact Me</title>
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="css/custom.css" rel="stylesheet">
 </head>
 <body>
     <!--header-->
@@ -50,10 +48,6 @@
     </div>
     <!-- footer -->
     <jsp:include page="../../footer.jsp"></jsp:include>
-
-    <!-- Bootstrap core JavaScript -->
-    <script src="js/jquery-1.11.1.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/mail.js"></script>
+    <script src="js/custom-mail.js"></script>
 </body>
 </html>

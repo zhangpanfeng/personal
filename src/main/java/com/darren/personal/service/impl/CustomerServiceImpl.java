@@ -1,6 +1,7 @@
 package com.darren.personal.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -33,6 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public int deleteById(Customer customer) {
+        customer.setDeleteTime(new Date());
         int result = customerDao.deleteById(customer);
 
         return result;
@@ -58,6 +60,13 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         return result;
+    }
+
+    @Override
+    public Customer selectByPrimaryKey(int id) {
+        Customer customer = customerDao.selectByPrimaryKey(id);
+
+        return customer;
     }
 
 }
