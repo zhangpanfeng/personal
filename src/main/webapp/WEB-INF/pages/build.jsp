@@ -14,6 +14,9 @@
         <div class="container">
             <button type="button" id="build" class="btn btn-success">build</button>
         </div>
+        <div class="container">
+            <div id="buildMessage" class="col-center-block message"></div>
+        </div>
 
         <div class="container" id="log" style="margin-top: 20px;"></div>
     </div>

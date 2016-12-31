@@ -3,7 +3,6 @@ package com.darren.personal.action;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +10,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.darren.personal.constant.StateCode;
 import com.darren.personal.entity.User;
+import com.darren.personal.util.JSONResponseUtil;
 import com.darren.personal.websocket.TextWebSocketServer;
 
 @Controller
 public class BuildAction {
     private static final Logger LOG = Logger.getLogger(BuildAction.class);
-    private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final String SCRIPT_PATH = "shellScript";
 
     @RequestMapping(value = "/build.do")
@@ -39,19 +37,12 @@ public class BuildAction {
     @ResponseBody
     @RequestMapping(value = "/execShell.do")
     public String execShell(HttpServletRequest request, String token) {
-        String result = null;
         Map<String, Object> map = new HashMap<String, Object>();
         TextWebSocketServer webSocketServer = TextWebSocketServer.getSocketServer(token);
         if (webSocketServer == null) {
             map.put("result", StateCode.FAILURE);
-            try {
-                result = MAPPER.writeValueAsString(map);
-            } catch (IOException e) {
-                LOG.info(e.getMessage());
-                e.printStackTrace();
-            }
 
-            return result;
+            return JSONResponseUtil.getResult(map);
         }
         String shellScript = request.getServletContext().getInitParameter(SCRIPT_PATH);
 
@@ -89,13 +80,7 @@ public class BuildAction {
 
         webSocketServer.onClose();
         map.put("result", StateCode.SUCCESS);
-        try {
-            result = MAPPER.writeValueAsString(map);
-        } catch (IOException e) {
-            LOG.info(e.getMessage());
-            e.printStackTrace();
-        }
 
-        return result;
+        return JSONResponseUtil.getResult(map);
     }
 }

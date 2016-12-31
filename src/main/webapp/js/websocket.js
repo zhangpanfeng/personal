@@ -17,31 +17,32 @@ function build(token) {
         url : "execShell.html",
         data : "token=" + token,
         datatype : "json",
+        beforeSend : function() {
+            $("#buildMessage").removeClass("success");
+            $("#buildMessage").removeClass("failure");
+            $("#buildMessage").addClass("normal");
+            $("#buildMessage").html("building ... ");
+        },
         success : function(data) {
-            data = JSON.parse(data);
             if (data.result == 1) {
                 // success
-                $("#signout").removeClass("hide");
-                $("#signin").addClass("hide");
-                $("#name").html(data.name);
-                $("#loginMessage").removeClass("failure");
-                $("#loginMessage").removeClass("normal");
-                $("#loginMessage").addClass("success");
-                $("#loginMessage").html("login success");
-                dialog.close();
+                $("#buildMessage").removeClass("failure");
+                $("#buildMessage").removeClass("normal");
+                $("#buildMessage").addClass("success");
+                $("#buildMessage").html("build success");
             } else {
-                $("#loginMessage").removeClass("success");
-                $("#loginMessage").removeClass("normal");
-                $("#loginMessage").addClass("failure");
-                $("#loginMessage").html("login failure");
+                $("#buildMessage").removeClass("success");
+                $("#buildMessage").removeClass("normal");
+                $("#buildMessage").addClass("failure");
+                $("#buildMessage").html("build failed");
             }
 
         },
         error : function() {
-            $("#loginMessage").removeClass("success");
-            $("#loginMessage").removeClass("normal");
-            $("#loginMessage").addClass("failure");
-            $("#loginMessage").html("login failure");
+            $("#buildMessage").removeClass("success");
+            $("#buildMessage").removeClass("normal");
+            $("#buildMessage").addClass("failure");
+            $("#buildMessage").html("build failed");
         }
     });
 }
