@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.darren.personal.entity.Customer;
-//表示继承了SpringJUnit4ClassRunner类
+//means it extends SpringJUnit4ClassRunner
 @RunWith(SpringJUnit4ClassRunner.class) 
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 public class CustomerServiceTest {

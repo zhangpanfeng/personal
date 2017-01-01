@@ -1,7 +1,6 @@
 package com.darren.personal.action;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ public class UploadAction {
         File targetFile = new File(path, fileName);
         try {
             file.transferTo(targetFile);
-        } catch (IllegalStateException | IOException e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage());
             e.printStackTrace();
         }
