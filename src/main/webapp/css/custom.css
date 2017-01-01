@@ -127,3 +127,41 @@ button{
     margin-left: 10px;
 }
 
+.custom-dialog table{
+    border:solid #ADD9C0; 
+    border-width:1px 0px 0px 1px;
+    width: 100%;
+}
+
+.custom-dialog td, .custom-dialog th{
+    border:solid #ADD9C0;
+    border-width:0px 1px 1px 0px;
+    height: 30px;
+}
+
+.custom-solid-block{
+    position: relative;
+    width: 178px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #3385FF;
+    color: #FFFFFF;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius:4px;
+    padding: 0 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.custom-solid-block .custom-close{
+    position: absolute;
+    right: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #F0FFF0;
+}
+
+.custom-solid-block .custom-close:hover{
+    color: #000000;
+}

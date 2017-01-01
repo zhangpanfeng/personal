@@ -27,6 +27,11 @@ public class Customer {
     private Date createTime;
     private Date deleteTime;
 
+    /**
+     * Id was split by "," example 1,2,3,4
+     */
+    private String stringId;
+
     public int getId() {
         return id;
     }
@@ -41,7 +46,7 @@ public class Customer {
 
     public void setPhone(String phone) {
         this.phone = phone;
-        if(this.phone != null){
+        if (this.phone != null) {
             this.phone = this.phone.trim();
         }
     }
@@ -52,7 +57,7 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
-        if(this.name != null){
+        if (this.name != null) {
             this.name = this.name.trim();
         }
     }
@@ -121,12 +126,20 @@ public class Customer {
         this.deleteTime = deleteTime;
     }
 
+    public String getStringId() {
+        return stringId;
+    }
+
+    public void setStringId(String stringId) {
+        this.stringId = stringId;
+    }
+
     public String getStringSendTime() {
         Date sendTime = this.getSendTime();
         if (sendTime != null) {
             this.stringSendTime = DateUtil.getString("yyyy-MM-dd HH:mm", sendTime);
         }
-        if(this.stringSendTime == null){
+        if (this.stringSendTime == null) {
             this.stringSendTime = "";
         }
 

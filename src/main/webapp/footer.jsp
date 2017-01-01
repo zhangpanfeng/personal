@@ -29,4 +29,5 @@
 <script src="js/jquery-1.11.1.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="bootstrap/js/bootstrap-dialog.js"></script>
+<script src="js/custom-util.js"></script>
 <script src="js/login.js"></script>

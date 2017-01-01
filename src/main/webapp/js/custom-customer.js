@@ -32,6 +32,19 @@ $("#addCustomer").click(function(){
     return false;
 });
 
+$("#batchSchedule").click(function(){
+    var tbody = $(this).parent().parent().parent().siblings("tbody").get(0);
+    showBatchScheduleWindow(tbody);
+
+    return false;
+});
+
+$("body").on("click", ".custom-dialog .custom-close", function(){
+    $(this).parent().remove();
+
+    return false;
+});
+
 function requestCustomer(id){
     $.ajax({
         type : "POST",
@@ -158,6 +171,54 @@ function showAddWindow(tbody){
     });
 }
 
+function showBatchScheduleWindow(tbody){
+   var bootstrapDialog = BootstrapDialog.show({
+        type: BootstrapDialog.TYPE_SUCCESS,
+        title: '批量预定',
+        message: function(dialog) {
+            var $message = $('<div></div>');
+            var pageToLoad = dialog.getData('pageToLoad');
+            $message.load(pageToLoad);
+            
+            return $message;
+        },
+        data: {
+            'pageToLoad': 'dialog/batchScheduleDialog.jsp'
+        },
+        buttons: [{
+            label: '取消',
+            action: function(dialog){
+                dialog.close();
+            }
+        }, {
+            id: 'btn-batch-schedule',
+            label: '预定',
+            cssClass: 'btn-success',
+            action: function(dialog){
+                batchSchedule(dialog, tbody);
+            }
+        }],
+        onshown: function(dialog){
+            var rbodyObj = $(tbody);
+            var checkbox = rbodyObj.find(".checkbox:checked");
+            var contentObj = $("#batchScheduleContent");
+            checkbox.each(function(index, value){
+                var array = value.value.split("_");
+                var labelObj = $("<label class='custom-solid-block' role='"+array[0]+"'>"+array[1]+"</label>");
+                var spanObj = $("<span class='custom-close'>×</span>");
+                labelObj.append(spanObj);
+                contentObj.append(labelObj);
+            });
+            $("#batchScheduleMessage").removeClass("failure");
+            $("#batchScheduleMessage").removeClass("normal");
+            $("#batchScheduleMessage").removeClass("success");
+            $("#batchScheduleMessage").html("");
+        }
+    });
+   
+   
+}
+
 function showDeleteWindow(tr, id){
     BootstrapDialog.show({
         type: BootstrapDialog.TYPE_DANGER,
@@ -253,7 +314,6 @@ function addCustomer(dialog, tbody){
         success : function(data) {
             if(data.result == 1){
                 //success
-                
                 var rbodyObj = $(tbody);
                 var lastTrClass = rbodyObj.children("tr:last-child").attr("class");
                 var trObj = $('<tr height="40">')
@@ -333,6 +393,53 @@ function deleteCustomer(dialog, tr, id){
             $("#deleteCustomerMessage").removeClass("normal");
             $("#deleteCustomerMessage").addClass("failure");
             $("#deleteCustomerMessage").html("删除失败！");
+        }
+    });
+}
+
+function batchSchedule(dialog, tbody){
+    var contentObj = $("#batchScheduleContent");
+    var nameBlock = contentObj.find(".custom-solid-block");
+    if(nameBlock.length == 0){
+        MessageUtil.showFailureMessage($("#batchScheduleMessage"), "请至少选择一人");
+        var actionButton = dialog.getButton("btn-batch-schedule");
+        actionButton.attr("disabled", "disabled");
+        
+        return;
+    }
+    var stringId = "";
+    nameBlock.each(function(index, value){
+        stringId = stringId + $(value).attr("role") + ",";
+    });
+    stringId = stringId.substring(0, stringId.length - 1);
+    $("#customerId").val(stringId);
+    var stringSendTime = $("#datepicker" ).val() + " " + $("#timespinner").val();
+    $("#stringSendTime").val(stringSendTime);
+    $.ajax({
+        type : "POST",
+        url : "batchSchedule.html",
+        data : $("#batchScheduleForm").serialize(),
+        datatype : "json",
+        beforeSend : function() {
+            MessageUtil.showNormalMessage($("#batchScheduleMessage"), "预定中 ... ");
+        },
+        success : function(data) {
+            if(data.result == 1){
+                //success
+                var length = data.customerList.length;
+                for (var i = 0; i < length; i++) {
+                    var customer = data.customerList[i];
+                    var trObject = $("#tr_" + customer.id);
+                    var tds = trObject.children("td");
+                    $(tds.get(4)).text(customer.stringSendTime);
+                }
+                dialog.close();
+            }else{
+                MessageUtil.showFailureMessage($("#batchScheduleMessage"), "预定失败！");
+            }
+        },
+        error : function() {
+            MessageUtil.showFailureMessage($("#batchScheduleMessage"), "预定失败！");
         }
     });
 }

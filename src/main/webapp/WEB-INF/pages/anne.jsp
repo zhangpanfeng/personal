@@ -15,7 +15,7 @@
     <div class="jumbotron">
         <div class="container">
         <form role="form" class="search-form" action="anne.html" method="post">
-        <table align="center" >
+        <table>
         <thead>
         <tr height="40" class="odd-line">
         <th colspan="4" style="padding-right: 10px;"><input type="text" class="form-control" name="phone" placeholder="输入手机号"></th>
@@ -41,9 +41,9 @@
         <tbody>
         
         <c:forEach items="${customerList}" var="customer" varStatus="status">
-            <tr height="40" class='<c:if test="${status.count%2==0 }">even-line</c:if><c:if test="${status.count%2!=0 }">odd-line</c:if>'>
+            <tr height="40" id="tr_${customer.id}" class='<c:if test="${status.count%2==0 }">even-line</c:if><c:if test="${status.count%2!=0 }">odd-line</c:if>'>
             <td>            
-                <input type="checkbox" class="checkbox">
+                <input type="checkbox" class="checkbox" value="${customer.id}_${customer.name}">
             </td>
             <td>${customer.phone}</td>
             <td>${customer.name}</td>

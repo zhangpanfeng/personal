@@ -1,6 +1,7 @@
 package com.darren.personal.action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.darren.personal.constant.Constant;
+import com.darren.personal.constant.StateCode;
 import com.darren.personal.entity.Customer;
 import com.darren.personal.job.EmailScheduleJob;
 import com.darren.personal.service.CustomerService;
@@ -85,6 +87,7 @@ public class CustomerAction {
                     String configPath = (String) request.getServletContext().getAttribute(Constant.EMAIL_CONFIG_PATH);
                     EmailScheduleJob.scheduleTask(customerList, configPath, String.valueOf(customer.getId()), sendTime);
                 }
+                map.put("id", customer.getId());
                 map.put("phone", customer.getPhone());
                 map.put("name", customer.getName());
                 map.put("emailState", customer.getEmailState());
@@ -125,6 +128,35 @@ public class CustomerAction {
         Map<String, Object> map = new HashMap<String, Object>();
         int rowCount = customerService.deleteById(customer);
         map.put("result", rowCount);
+
+        return JSONResponseUtil.getResult(map);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/batchSchedule.do")
+    public String batchSchedule(HttpServletRequest request, Customer customer) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("result", StateCode.FAILURE);
+        List<Customer> customerList = new ArrayList<Customer>();
+        if (customer != null && !StringUtil.isEmpty(customer.getStringId())) {
+            String[] idArray = customer.getStringId().split(",");
+            for (String stringId : idArray) {
+                Customer item = customerService.selectByPrimaryKey(Integer.valueOf(stringId.trim()));
+                item.setSendTime(customer.getSendTime());
+                int rowCount = customerService.updateByParameter(item);
+                if (rowCount > 0) {
+                    customerList.add(item);
+                }
+            }
+            if (customerList.size() == idArray.length) {
+                // schedule email task
+                String configPath = (String) request.getServletContext().getAttribute(Constant.EMAIL_CONFIG_PATH);
+                EmailScheduleJob.scheduleTask(customerList, configPath, customer.getStringId(), customer.getSendTime());
+
+                map.put("result", StateCode.SUCCESS);
+                map.put("customerList", customerList);
+            }
+        }
 
         return JSONResponseUtil.getResult(map);
     }
