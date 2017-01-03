@@ -193,6 +193,8 @@ function showBatchScheduleWindow(tbody){
             }
         }],
         onshown: function(dialog){
+            console.log($("#batchScheduleContent"));
+            console.log("111");
             while(!$("#batchScheduleContent")){
                 setTimeout(1);
                 console.log(1);
