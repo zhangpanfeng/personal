@@ -193,6 +193,10 @@ function showBatchScheduleWindow(tbody){
             }
         }],
         onshown: function(dialog){
+            while(!$("#batchScheduleContent")){
+                setTimeout(1);
+                console.log(1);
+            }
             var rbodyObj = $(tbody);
             var checkbox = rbodyObj.find(".checkbox:checked");
             var contentObj = $("#batchScheduleContent");
@@ -207,8 +211,10 @@ function showBatchScheduleWindow(tbody){
             MessageUtil.cleanMessage($("#batchScheduleMessage"));
         }
     });
-   
-   
+}
+
+function loadBatchSchedule(){
+    
 }
 
 function showDeleteWindow(tr, id){
