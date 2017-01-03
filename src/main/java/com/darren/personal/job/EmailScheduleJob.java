@@ -10,6 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.darren.personal.entity.Customer;
+import com.darren.personal.util.DateUtil;
 
 public class EmailScheduleJob {
     private static final ScheduledExecutorService SERVICE = Executors.newSingleThreadScheduledExecutor();
@@ -28,7 +29,7 @@ public class EmailScheduleJob {
     }
     
     private static void schedule(List<Customer> customerList, String configPath, String taskId, Date sendTime){
-        long delayTime = sendTime.getTime() - new Date().getTime();
+        long delayTime = DateUtil.getLocalTime(sendTime) - new Date().getTime();
         if(delayTime > 0){
             EmailTask task = new EmailTask(customerList, configPath, taskId);
             // if send email failed, send it again after 5 minutes

@@ -1,9 +1,7 @@
 $("tbody").on("click", ".schedule", function(){
     var tds = $(this).parent().parent().children("td");
     var id = $(this).val();
-    console.log(id);
-    requestCustomer(id);
-    showScheduleEmaikWindow(tds);
+    showScheduleEmaikWindow(tds, id);
 
     return false;
 });
@@ -11,8 +9,7 @@ $("tbody").on("click", ".schedule", function(){
 $("tbody").on("click", ".edit", function(){
     var tds = $(this).parent().parent().children("td");
     var id = $(this).val();
-    requestCustomer(id);
-    showEditorWindow(tds);
+    showEditorWindow(tds, id);
 
     return false;
 });
@@ -61,28 +58,19 @@ function requestCustomer(id){
                 if(commentObj){
                     commentObj.val(data.comment);
                 }
-                $("#editCustomerMessage").removeClass("failure");
-                $("#editCustomerMessage").removeClass("normal");
-                $("#editCustomerMessage").removeClass("success");
-                $("#editCustomerMessage").html("");
+                MessageUtil.cleanMessage($("#editCustomerMessage"));
             }else{
-                $("#editCustomerMessage").removeClass("success");
-                $("#editCustomerMessage").removeClass("normal");
-                $("#editCustomerMessage").addClass("failure");
-                $("#editCustomerMessage").html("加载错误！");
+                MessageUtil.showFailureMessage($("#editCustomerMessage"), "加载错误！");
             }
             
         },
         error : function() {
-            $("#editCustomerMessage").removeClass("success");
-            $("#editCustomerMessage").removeClass("normal");
-            $("#editCustomerMessage").addClass("failure");
-            $("#editCustomerMessage").html("加载错误！");
+            MessageUtil.showFailureMessage($("#editCustomerMessage"), "加载错误！");
         }
     });
 }
 
-function showScheduleEmaikWindow(tds){
+function showScheduleEmaikWindow(tds, id){
     BootstrapDialog.show({
         type: BootstrapDialog.TYPE_SUCCESS,
         title: '预定时间',
@@ -108,11 +96,14 @@ function showScheduleEmaikWindow(tds){
             action: function(dialog){
                 updateCustomer(dialog, tds);
             }
-        }]
+        }],
+        onshown: function(){
+            requestCustomer(id);
+        }
     });
 }
 
-function showEditorWindow(tds){
+function showEditorWindow(tds, id){
     BootstrapDialog.show({
         type: BootstrapDialog.TYPE_WARNING,
         title: '修改客户',
@@ -138,7 +129,10 @@ function showEditorWindow(tds){
             action: function(dialog){
                 updateCustomer(dialog, tds);
             }
-        }]
+        }],
+        onshown: function(){
+            requestCustomer(id);
+        }
     });
 }
 
@@ -209,10 +203,8 @@ function showBatchScheduleWindow(tbody){
                 labelObj.append(spanObj);
                 contentObj.append(labelObj);
             });
-            $("#batchScheduleMessage").removeClass("failure");
-            $("#batchScheduleMessage").removeClass("normal");
-            $("#batchScheduleMessage").removeClass("success");
-            $("#batchScheduleMessage").html("");
+            
+            MessageUtil.cleanMessage($("#batchScheduleMessage"));
         }
     });
    
@@ -260,14 +252,12 @@ function updateCustomer(dialog, tds){
         data : $("#editCustomerForm").serialize(),
         datatype : "json",
         beforeSend : function() {
-            $("#editCustomerMessage").removeClass("success");
-            $("#editCustomerMessage").removeClass("failure");
-            $("#editCustomerMessage").addClass("normal");
-            $("#editCustomerMessage").html("正在保存 ... ");
+            MessageUtil.showNormalMessage($("#editCustomerMessage"), "正在保存 ... ");
         },
         success : function(data) {
             if(data.result == 1){
                 //success
+                $($(tds.get(0)).children(".checkbox").get(0)).val(data.id + "_" + data.name);
                 $(tds.get(1)).text(data.phone);
                 $(tds.get(2)).text(data.name);
                 var emailStateObj = $(tds.get(3));
@@ -283,18 +273,12 @@ function updateCustomer(dialog, tds){
                 $(tds.get(5)).text(data.comment);
                 dialog.close();
             }else{
-                $("#editCustomerMessage").removeClass("success");
-                $("#editCustomerMessage").removeClass("normal");
-                $("#editCustomerMessage").addClass("failure");
-                $("#editCustomerMessage").html("保存失败！");
+                MessageUtil.showFailureMessage($("#editCustomerMessage"), "保存失败！");
             }
             
         },
         error : function() {
-            $("#editCustomerMessage").removeClass("success");
-            $("#editCustomerMessage").removeClass("normal");
-            $("#editCustomerMessage").addClass("failure");
-            $("#editCustomerMessage").html("保存失败！");
+            MessageUtil.showFailureMessage($("#editCustomerMessage"), "保存失败！");
         }
     });
 }
@@ -306,10 +290,7 @@ function addCustomer(dialog, tbody){
         data : $("#addCustomerForm").serialize(),
         datatype : "json",
         beforeSend : function() {
-            $("#addCustomerMessage").removeClass("success");
-            $("#addCustomerMessage").removeClass("failure");
-            $("#addCustomerMessage").addClass("normal");
-            $("#addCustomerMessage").html("正在保存 ... ");
+            MessageUtil.showNormalMessage($("#addCustomerMessage"), "正在保存 ... ");
         },
         success : function(data) {
             if(data.result == 1){
@@ -321,8 +302,8 @@ function addCustomer(dialog, tbody){
                     trObj.attr("class", "even-line");
                 }else{
                     trObj.attr("class", "odd-line");
-                }
-                trObj.append($('<td><input type="checkbox" class="checkbox"></td>'));
+                }$(tds.get(0)).val(data.id + "_" + data.name);
+                trObj.append($('<td><input type="checkbox" class="checkbox" value="' + data.id + '_' + data.name + '"></td>'));
                 trObj.append($("<td>"+data.phone+"</td>"));
                 trObj.append($("<td>"+data.name+"</td>"));
                 if(data.emailState == 'N'){
@@ -336,18 +317,12 @@ function addCustomer(dialog, tbody){
                 rbodyObj.append(trObj);
                 dialog.close();
             }else{
-                $("#addCustomerMessage").removeClass("success");
-                $("#addCustomerMessage").removeClass("normal");
-                $("#addCustomerMessage").addClass("failure");
-                $("#addCustomerMessage").html("保存失败！");
+                MessageUtil.showFailureMessage($("#addCustomerMessage"), "保存失败！");
             }
             
         },
         error : function() {
-            $("#addCustomerMessage").removeClass("success");
-            $("#addCustomerMessage").removeClass("normal");
-            $("#addCustomerMessage").addClass("failure");
-            $("#addCustomerMessage").html("保存失败！");
+            MessageUtil.showFailureMessage($("#addCustomerMessage"), "保存失败！");
         }
     });
 }
@@ -359,10 +334,7 @@ function deleteCustomer(dialog, tr, id){
         data : "id=" + id,
         datatype : "json",
         beforeSend : function() {
-            $("#deleteCustomerMessage").removeClass("success");
-            $("#deleteCustomerMessage").removeClass("failure");
-            $("#deleteCustomerMessage").addClass("normal");
-            $("#deleteCustomerMessage").html("删除中 ... ");
+            MessageUtil.showNormalMessage($("#deleteCustomerMessage"), "删除中 ... ");
         },
         success : function(data) {
             if(data.result == 1){
@@ -381,18 +353,12 @@ function deleteCustomer(dialog, tr, id){
                 })
                 dialog.close();
             }else{
-                $("#deleteCustomerMessage").removeClass("success");
-                $("#deleteCustomerMessage").removeClass("normal");
-                $("#deleteCustomerMessage").addClass("failure");
-                $("#deleteCustomerMessage").html("删除失败！");
+                MessageUtil.showFailureMessage($("#deleteCustomerMessage"), "删除失败！");
             }
             
         },
         error : function() {
-            $("#deleteCustomerMessage").removeClass("success");
-            $("#deleteCustomerMessage").removeClass("normal");
-            $("#deleteCustomerMessage").addClass("failure");
-            $("#deleteCustomerMessage").html("删除失败！");
+            MessageUtil.showFailureMessage($("#deleteCustomerMessage"), "删除失败！");
         }
     });
 }

@@ -25,8 +25,5 @@
     </div>
     <div id="editCustomerMessage" class="col-center-block message clear normal">加载中...</div>
 </form>
-<script src="js/globalize.js" type="text/javascript"></script>
-<script src="js/globalize.culture.de-DE.js" type="text/javascript"></script>
-<script src="js/jquery.mousewheel.js" type="text/javascript"></script>
 <script src="js/custom-datepicker.js" type="text/javascript"></script>
 <script src="js/custom-spinner.js" type="text/javascript"></script>

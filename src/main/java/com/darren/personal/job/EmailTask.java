@@ -51,7 +51,6 @@ public class EmailTask implements Runnable {
         builder.append("</table>");
         MAIL.setText(builder.toString());
         boolean result = MailUtil.send(MAIL, configPath);
-        System.out.println("Hello");
         if (result) {
             // task finish, cancel schedule
             future.cancel(true);

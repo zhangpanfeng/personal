@@ -29,5 +29,9 @@
 <script src="js/jquery-1.11.1.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="bootstrap/js/bootstrap-dialog.js"></script>
+<script src="js/jquery-ui-1.11.1.js"></script>
+<script src="js/globalize.js" type="text/javascript"></script>
+<script src="js/globalize.culture.de-DE.js" type="text/javascript"></script>
+<script src="js/jquery.mousewheel.js" type="text/javascript"></script>
 <script src="js/custom-util.js"></script>
 <script src="js/login.js"></script>

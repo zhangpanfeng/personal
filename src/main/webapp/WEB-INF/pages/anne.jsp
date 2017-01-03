@@ -69,7 +69,6 @@
     </div>
     <!-- footer -->
     <jsp:include page="../../footer.jsp"></jsp:include>
-    <script src="js/jquery-ui-1.11.1.js"></script>
     <script src="js/custom-dropdown.js"></script>
     <script src="js/custom-customer.js"></script>
 </body>
