@@ -27,3 +27,13 @@ var MessageUtil = {
         selector.html("");
     }
 };
+
+var TimerUtil = {
+    sleep : function(millisecond) {
+        setTimeout(TimerUtil.nothing, millisecond);
+    },
+
+    nothing : function() {
+        console.log("nothing");
+    }
+}

@@ -194,8 +194,7 @@ function showBatchScheduleWindow(tbody){
         }],
         onshown: function(dialog){
             while($("body").find("#batchScheduleMessage").length == 0){
-                setTimeout(1);
-                console.log(1);
+                TimerUtil.sleep(1);
             }
             var rbodyObj = $(tbody);
             var checkbox = rbodyObj.find(".checkbox:checked");
