@@ -169,6 +169,7 @@ function showBatchScheduleWindow(tbody){
    var bootstrapDialog = BootstrapDialog.show({
         type: BootstrapDialog.TYPE_SUCCESS,
         title: '批量预定',
+        autodestroy: false,
         message: function(dialog) {
             var $message = $('<div></div>');
             var pageToLoad = dialog.getData('pageToLoad');
@@ -193,9 +194,13 @@ function showBatchScheduleWindow(tbody){
             }
         }],
         onshown: function(dialog){
-            CustomCustomer.displayBatchScheduleContent(tbody);
+          CustomCustomer.displayBatchScheduleContent(tbody);
         }
     });
+   
+    var dialogContent = bootstrapDialog.getModalContent();
+   console.log("2" + dialogContent);
+   console.log("2" + dialogContent.find("#batchScheduleMessage"));
 }
 var CustomCustomer = {
     displayBatchScheduleContent: function(tbody){
