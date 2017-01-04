@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="js/jquery-1.11.1.js"></script>
+<script src="js/custom-util.js"></script>
+</head>
+<body>
+<script>
+$(document).ready(function(){
+    var i = 0;
+    while(true){
+        TimerUtil.sleep(2);
+        if(i > 10){
+            break;
+        }
+        i++;
+        console.log("===========================");
+    }
+})
+</script>
+</body>
+</html>

@@ -193,6 +193,7 @@ function showBatchScheduleWindow(tbody){
             }
         }],
         onshown: function(dialog){
+            //wait DOM initial
             while($("body").find("#batchScheduleMessage").length == 0){
                 TimerUtil.sleep(1);
             }
@@ -210,10 +211,6 @@ function showBatchScheduleWindow(tbody){
             MessageUtil.cleanMessage($("#batchScheduleMessage"));
         }
     });
-}
-
-function loadBatchSchedule(){
-    
 }
 
 function showDeleteWindow(tr, id){

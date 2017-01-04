@@ -29,8 +29,20 @@ var MessageUtil = {
 };
 
 var TimerUtil = {
+    /**
+     * sleep millisecond
+     */
     sleep : function(millisecond) {
-        setTimeout(TimerUtil.nothing, millisecond);
+        var i = 0;
+        var start = new Date().getTime();
+        while (true) {
+            var now = new Date().getTime();
+            if (now >= start + millisecond) {
+                break;
+            }
+            console.log("loop " + i);
+            i++;
+        }
     },
 
     nothing : function() {
