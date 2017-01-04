@@ -30,9 +30,9 @@ var MessageUtil = {
 
 var TimerUtil = {
     /**
-     * sleep millisecond
+     * synchronization sleep millisecond
      */
-    sleep : function(millisecond) {
+    syncSleep : function(millisecond) {
         var i = 0;
         var start = new Date().getTime();
         while (true) {
@@ -45,7 +45,10 @@ var TimerUtil = {
         }
     },
 
-    nothing : function() {
-        console.log("nothing");
+    /**
+     * asynchronous sleep millisecond
+     */
+    asyncSleep : function(millisecond, callback) {
+        setTimeout(callback, millisecond);
     }
 }

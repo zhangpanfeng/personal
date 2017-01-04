@@ -192,28 +192,27 @@ function showBatchScheduleWindow(tbody){
                 batchSchedule(dialog, tbody);
             }
         }],
-        onshown: function(dialog){
+        onshown: function(){
             //wait DOM initial
-            while(true){
-                console.log($("body").find("#batchScheduleMessage").length);
-                if($("body").find("#batchScheduleMessage").length == 0){
-                    TimerUtil.sleep(1);
-                }else{
-                    break;
-                }
+            console.log($("body").find("#batchScheduleMessage").length);
+            if($("body").find("#batchScheduleMessage").length == 0){
+                console.log("if");
+                TimerUtil.asyncSleep(1, bootstrapDialog.onshown);
+            }else{
+                console.log("else");
+                var rbodyObj = $(tbody);
+                var checkbox = rbodyObj.find(".checkbox:checked");
+                var contentObj = $("#batchScheduleContent");
+                checkbox.each(function(index, value){
+                    var array = value.value.split("_");
+                    var labelObj = $("<label class='custom-solid-block' role='"+array[0]+"'>"+array[1]+"</label>");
+                    var spanObj = $("<span class='custom-close'>×</span>");
+                    labelObj.append(spanObj);
+                    contentObj.append(labelObj);
+                });
+                
+                MessageUtil.cleanMessage($("#batchScheduleMessage"));
             }
-            var rbodyObj = $(tbody);
-            var checkbox = rbodyObj.find(".checkbox:checked");
-            var contentObj = $("#batchScheduleContent");
-            checkbox.each(function(index, value){
-                var array = value.value.split("_");
-                var labelObj = $("<label class='custom-solid-block' role='"+array[0]+"'>"+array[1]+"</label>");
-                var spanObj = $("<span class='custom-close'>×</span>");
-                labelObj.append(spanObj);
-                contentObj.append(labelObj);
-            });
-            
-            MessageUtil.cleanMessage($("#batchScheduleMessage"));
         }
     });
 }
