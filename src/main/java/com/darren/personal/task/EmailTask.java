@@ -1,9 +1,10 @@
-package com.darren.personal.job;
+package com.darren.personal.task;
 
 import java.util.List;
 import java.util.concurrent.Future;
 import com.darren.personal.entity.Customer;
 import com.darren.personal.entity.Mail;
+import com.darren.personal.job.EmailScheduleJob;
 import com.darren.personal.util.MailUtil;
 
 public class EmailTask implements Runnable {

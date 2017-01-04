@@ -32,8 +32,10 @@
         p:suffix=".jsp" />
 
     <!-- 支持上传文件 -->
-    <!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
-        /> <bean id="uploadAction" class="com.darren.upload.action.UploadAction" /> -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 10mb -->
+        <property name="maxUploadSize" value="1000000" />
+    </bean>
 
     <!-- 引入配置文件 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -55,6 +57,8 @@
         <property name="minIdle" value="${minIdle}"></property>
         <!-- 获取连接最大等待时间 -->
         <property name="maxWait" value="${maxWait}"></property>
+        <!-- 用来验证从连接池取出的连接 -->
+        <property name="validationQuery" value="SELECT NOW() FROM DUAL" />
     </bean>
 
     <!-- myBatis文件 -->
@@ -69,6 +73,9 @@
         <property name="basePackage" value="com.darren.personal.dao" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
+
+    <!-- spring统一异常处理拦截器 -->
+    <bean id="exceptionHandler" class="com.darren.personal.exception.ExceptionHandler" />
 
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

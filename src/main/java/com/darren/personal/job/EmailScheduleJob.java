@@ -10,6 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.darren.personal.entity.Customer;
+import com.darren.personal.task.EmailTask;
 import com.darren.personal.util.DateUtil;
 
 public class EmailScheduleJob {

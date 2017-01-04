@@ -69,4 +69,53 @@ public class CustomerServiceImpl implements CustomerService {
         return customer;
     }
 
+    @Override
+    public void insertFromFile(List<String> contentList) {
+        if (contentList != null) {
+            for (String line : contentList) {
+                String[] array = line.split("\\|");
+                String phone = String.valueOf((int) Double.parseDouble(array[0]));
+                if (phone.length() > 11) {
+                    continue;
+                }
+
+                Customer customer = new Customer();
+                customer.setPhone(phone);
+                List<Customer> list = customerDao.selectByParameter(customer);
+                if (list == null || list.size() == 0) {
+                    customer.setName(array[1]);
+                    customer.setComment(array[2]);
+                    customerDao.insert(customer);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void updateFromFile(List<String> contentList) {
+        if (contentList != null) {
+            for (String line : contentList) {
+                String[] array = line.split("\\|");
+                String phone = String.valueOf((int) Double.parseDouble(array[0]));
+                if (phone.length() > 11) {
+                    continue;
+                }
+
+                Customer customer = new Customer();
+                customer.setPhone(phone);
+                List<Customer> list = customerDao.selectByParameter(customer);
+                if (list == null || list.size() == 0) {
+                    customer.setName(array[1]);
+                    customer.setComment(array[2]);
+                    customerDao.insert(customer);
+                }else{
+                    customer = list.get(0);
+                    customer.setName(array[1]);
+                    customer.setComment(array[2]);
+                    customerDao.updateByParameter(customer);
+                }
+            }
+        }
+    }
+
 }

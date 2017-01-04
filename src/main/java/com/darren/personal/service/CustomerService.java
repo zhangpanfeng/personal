@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.darren.personal.entity.Customer;
 
-public interface CustomerService {
+public interface CustomerService extends BaseService{
     /**
      * insert customer to table
      * 
