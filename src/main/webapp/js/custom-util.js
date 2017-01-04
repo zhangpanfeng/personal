@@ -48,7 +48,7 @@ var TimerUtil = {
     /**
      * asynchronous sleep millisecond
      */
-    asyncSleep : function(millisecond, callback) {
-        setTimeout(callback, millisecond);
+    asyncSleep : function(millisecond, callback, parameter) {
+        setTimeout(callback(parameter), millisecond);
     }
 }
