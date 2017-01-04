@@ -194,8 +194,13 @@ function showBatchScheduleWindow(tbody){
         }],
         onshown: function(dialog){
             //wait DOM initial
-            while($("body").find("#batchScheduleMessage").length == 0){
-                TimerUtil.sleep(1);
+            while(true){
+                console.log($("body").find("#batchScheduleMessage").length);
+                if($("body").find("#batchScheduleMessage").length == 0){
+                    TimerUtil.sleep(1);
+                }else{
+                    break;
+                }
             }
             var rbodyObj = $(tbody);
             var checkbox = rbodyObj.find(".checkbox:checked");
