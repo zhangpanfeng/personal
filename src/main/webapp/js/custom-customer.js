@@ -42,7 +42,7 @@ $("body").on("click", ".custom-dialog .custom-close", function(){
     return false;
 });
 
-function requestCustomer(id){
+function requestCustomer(id, idObj, phoneObj, nameObj, commentObj, messageObj){
     $.ajax({
         type : "POST",
         url : "getCustomer.html",
@@ -51,39 +51,38 @@ function requestCustomer(id){
         success : function(data) {
             if(data.result == 1){
                 //success
-                $("#customerId").val(data.id);
-                $("#customerPhone").val(data.phone);
-                $("#customerName").val(data.name);
-                var commentObj = $("#customerComment");
+                idObj.val(data.id);
+                phoneObj.val(data.phone);
+                nameObj.val(data.name);
                 if(commentObj){
                     commentObj.val(data.comment);
                 }
-                MessageUtil.cleanMessage($("#editCustomerMessage"));
+                MessageUtil.cleanMessage(messageObj);
             }else{
-                MessageUtil.showFailureMessage($("#editCustomerMessage"), "加载错误！");
+                MessageUtil.showFailureMessage(messageObj, "加载错误！");
             }
-            
         },
         error : function() {
-            MessageUtil.showFailureMessage($("#editCustomerMessage"), "加载错误！");
+            MessageUtil.showFailureMessage(messageObj, "加载错误！");
         }
     });
 }
 
 function showScheduleEmaikWindow(tds, id){
+    var idObj = $("#scheduleCustomerId");
+    var phoneObj = $("#scheduleCustomerPhone");
+    var nameObj = $("#scheduleCustomerName");
+    var messageObj = $("#scheduleCustomerMessage");
+    var formObj = $("#scheduleCustomerForm");
+    
     BootstrapDialog.show({
         type: BootstrapDialog.TYPE_SUCCESS,
         title: '预定时间',
-        //draggable: true,
         message: function(dialog) {
             var $message = $('<div></div>');
-            var pageToLoad = dialog.getData('pageToLoad');
-            $message.load(pageToLoad);
+            $message.append(formObj);
     
             return $message;
-        },
-        data: {
-            'pageToLoad': 'dialog/scheduleEmailDialog.jsp'
         },
         buttons: [{
             label: '取消',
@@ -94,29 +93,41 @@ function showScheduleEmaikWindow(tds, id){
             label: '预定',
             cssClass: 'btn-success',
             action: function(dialog){
-                updateCustomer(dialog, tds);
+                var stringSendTime = $("#scheduleDatepicker").val() + " " + $("#scheduleTimespinner").val();
+                $("#scheduleStringSendTime").val(stringSendTime);
+                var formData = formObj.serialize();
+                updateCustomer(dialog, tds, formData, messageObj);
             }
         }],
         onshown: function(){
-            requestCustomer(id);
+            requestCustomer(id, idObj, phoneObj, nameObj, null, messageObj);
+        },
+        onhide: function(dialog){
+            MessageUtil.showNormalMessage(messageObj, "加载中...");
+            idObj.val("");
+            phoneObj.val("");
+            nameObj.val("");
+            $("#dialogHidden").append(formObj);
         }
     });
 }
 
 function showEditorWindow(tds, id){
+    var idObj = $("#editCustomerId");
+    var phoneObj = $("#editCustomerPhone");
+    var nameObj = $("#editCustomerName");
+    var contentObj = $("#editCustomerComment");
+    var messageObj = $("#editCustomerMessage");
+    var formObj = $("#editCustomerForm");
+    
     BootstrapDialog.show({
         type: BootstrapDialog.TYPE_WARNING,
         title: '修改客户',
-        //draggable: true,
         message: function(dialog) {
             var $message = $('<div></div>');
-            var pageToLoad = dialog.getData('pageToLoad');
-            $message.load(pageToLoad);
+            $message.append(formObj);
     
             return $message;
-        },
-        data: {
-            'pageToLoad': 'dialog/editorCustomerDialog.jsp'
         },
         buttons: [{
             label: '取消',
@@ -127,28 +138,38 @@ function showEditorWindow(tds, id){
             label: '修改',
             cssClass: 'btn-warning',
             action: function(dialog){
-                updateCustomer(dialog, tds);
+                var formData = formObj.serialize();
+                updateCustomer(dialog, tds, formData, messageObj);
             }
         }],
         onshown: function(){
-            requestCustomer(id);
+            requestCustomer(id, idObj, phoneObj, nameObj, contentObj, messageObj);
+        },
+        onhide: function(dialog){
+            MessageUtil.showNormalMessage(messageObj, "加载中...");
+            idObj.val("");
+            phoneObj.val("");
+            nameObj.val("");
+            contentObj.val("");
+            $("#dialogHidden").append(formObj);
         }
     });
 }
 
 function showAddWindow(tbody){
+    var phoneObj = $("#addCustomerPhone");
+    var nameObj = $("#addCustomerName");
+    var contentObj = $("#addCustomerComment");
+    var messageObj = $("#addCustomerMessage");
+    var formObj = $("#addCustomerForm");
+    
     BootstrapDialog.show({
         title: '添加客户',
-        //draggable: true,
         message: function(dialog) {
             var $message = $('<div></div>');
-            var pageToLoad = dialog.getData('pageToLoad');
-            $message.load(pageToLoad);
+            $message.append(formObj);
     
             return $message;
-        },
-        data: {
-            'pageToLoad': 'dialog/addCustomerDialog.jsp'
         },
         buttons: [{
             label: '取消',
@@ -159,19 +180,32 @@ function showAddWindow(tbody){
             label: '添加',
             cssClass: 'btn-primary',
             action: function(dialog){
-                addCustomer(dialog, tbody);
+                var formData = formObj.serialize()
+                addCustomer(dialog, tbody, formData, messageObj);
             }
-        }]
+        }],
+        onhide: function(dialog){
+            phoneObj.val("");
+            nameObj.val("");
+            contentObj.val("");
+            $("#dialogHidden").append(formObj);
+        }
     });
 }
 
 function showBatchScheduleWindow(tbody){
-   var bootstrapDialog = BootstrapDialog.show({
+    var idObj = $("#batchScheduleCustomerId");
+    var sendTimeObj = $("#batchScheduleStringSendTime");
+    var contentObj = $("#batchScheduleContent");
+    var messageObj = $("#batchScheduleMessage");
+    var formObj = $("#batchScheduleForm");
+    
+    var bootstrapDialog = BootstrapDialog.show({
         type: BootstrapDialog.TYPE_SUCCESS,
         title: '批量预定',
         message: function(dialog) {
             var $message = $('<div></div>');
-            $message.append($("#batchScheduleForm"));
+            $message.append(formObj);
             
             return $message;
         },
@@ -185,13 +219,12 @@ function showBatchScheduleWindow(tbody){
             label: '预定',
             cssClass: 'btn-success',
             action: function(dialog){
-                batchSchedule(dialog, tbody);
+                batchSchedule(dialog, tbody, idObj, sendTimeObj, contentObj, formObj, messageObj);
             }
         }],
         onshown: function(dialog){
             var rbodyObj = $(tbody);
             var checkbox = rbodyObj.find(".checkbox:checked");
-            var contentObj = $("#batchScheduleContent");
             checkbox.each(function(index, value){
                 var array = value.value.split("_");
                 var labelObj = $("<label class='custom-solid-block' role='"+array[0]+"'>"+array[1]+"</label>");
@@ -200,29 +233,28 @@ function showBatchScheduleWindow(tbody){
                 contentObj.append(labelObj);
             });
             
-            MessageUtil.cleanMessage($("#batchScheduleMessage"));
+            MessageUtil.cleanMessage(messageObj);
         },
         onhide: function(dialog){
-            MessageUtil.showNormalMessage($("#batchScheduleMessage"), "加载中...");
-            $("#batchScheduleContent").empty();
-            $("#dialogHidden").append($("#batchScheduleForm"));
+            MessageUtil.showNormalMessage(messageObj, "加载中...");
+            contentObj.empty();
+            $("#dialogHidden").append(formObj);
         }
     });
 }
 
 function showDeleteWindow(tr, id){
+    var messageObj = $("#deleteCustomerMessage");
+    var formObj = $("#deleteCustomerForm");
+    
     BootstrapDialog.show({
         type: BootstrapDialog.TYPE_DANGER,
         title: '删除客户',
         message: function(dialog) {
             var $message = $('<div></div>');
-            var pageToLoad = dialog.getData('pageToLoad');
-            $message.load(pageToLoad);
+            $message.append(formObj);
     
             return $message;
-        },
-        data: {
-            'pageToLoad': 'dialog/deleteCustomerDialog.jsp'
         },
         buttons: [{
             label: '取消',
@@ -233,25 +265,23 @@ function showDeleteWindow(tr, id){
             label: '删除',
             cssClass: 'btn-danger',
             action: function(dialog){
-                deleteCustomer(dialog, tr, id);
+                deleteCustomer(dialog, tr, id, messageObj);
             }
-        }]
+        }],
+        onhide: function(dialog){
+            $("#dialogHidden").append(formObj);
+        }
     });
 }
 
-function updateCustomer(dialog, tds){
-    if($("#timespinner") && $("#datepicker" )){
-       var stringSendTime = $("#datepicker" ).val() + " " + $("#timespinner").val();
-       $("#stringSendTime").val(stringSendTime);
-    }
-    
+function updateCustomer(dialog, tds, formData, messageObj){
     $.ajax({
         type : "POST",
         url : "editCustomer.html",
-        data : $("#editCustomerForm").serialize(),
+        data : formData,
         datatype : "json",
         beforeSend : function() {
-            MessageUtil.showNormalMessage($("#editCustomerMessage"), "正在保存 ... ");
+            MessageUtil.showNormalMessage(messageObj, "正在保存 ... ");
         },
         success : function(data) {
             if(data.result == 1){
@@ -272,24 +302,24 @@ function updateCustomer(dialog, tds){
                 $(tds.get(5)).text(data.comment);
                 dialog.close();
             }else{
-                MessageUtil.showFailureMessage($("#editCustomerMessage"), "保存失败！");
+                MessageUtil.showFailureMessage(messageObj, "保存失败！");
             }
             
         },
         error : function() {
-            MessageUtil.showFailureMessage($("#editCustomerMessage"), "保存失败！");
+            MessageUtil.showFailureMessage(messageObj, "保存失败！");
         }
     });
 }
 
-function addCustomer(dialog, tbody){
+function addCustomer(dialog, tbody, formData, messageObj){
     $.ajax({
         type : "POST",
         url : "addCustomer.html",
-        data : $("#addCustomerForm").serialize(),
+        data : formData,
         datatype : "json",
         beforeSend : function() {
-            MessageUtil.showNormalMessage($("#addCustomerMessage"), "正在保存 ... ");
+            MessageUtil.showNormalMessage(messageObj, "正在保存 ... ");
         },
         success : function(data) {
             if(data.result == 1){
@@ -316,24 +346,24 @@ function addCustomer(dialog, tbody){
                 rbodyObj.append(trObj);
                 dialog.close();
             }else{
-                MessageUtil.showFailureMessage($("#addCustomerMessage"), "保存失败！");
+                MessageUtil.showFailureMessage(messageObj, "保存失败！");
             }
             
         },
         error : function() {
-            MessageUtil.showFailureMessage($("#addCustomerMessage"), "保存失败！");
+            MessageUtil.showFailureMessage(messageObj, "保存失败！");
         }
     });
 }
 
-function deleteCustomer(dialog, tr, id){
+function deleteCustomer(dialog, tr, id, messageObj){
     $.ajax({
         type : "POST",
         url : "deleteCustomer.html",
         data : "id=" + id,
         datatype : "json",
         beforeSend : function() {
-            MessageUtil.showNormalMessage($("#deleteCustomerMessage"), "删除中 ... ");
+            MessageUtil.showNormalMessage(messageObj, "删除中 ... ");
         },
         success : function(data) {
             if(data.result == 1){
@@ -352,24 +382,22 @@ function deleteCustomer(dialog, tr, id){
                 })
                 dialog.close();
             }else{
-                MessageUtil.showFailureMessage($("#deleteCustomerMessage"), "删除失败！");
+                MessageUtil.showFailureMessage(messageObj, "删除失败！");
             }
-            
         },
         error : function() {
-            MessageUtil.showFailureMessage($("#deleteCustomerMessage"), "删除失败！");
+            MessageUtil.showFailureMessage(messageObj, "删除失败！");
         }
     });
 }
 
-function batchSchedule(dialog, tbody){
-    var contentObj = $("#batchScheduleContent");
+function batchSchedule(dialog, tbody, idObj, sendTimeObj, contentObj, formObj, messageObj){
     var nameBlock = contentObj.find(".custom-solid-block");
     if(nameBlock.length == 0){
-        MessageUtil.showFailureMessage($("#batchScheduleMessage"), "请至少选择一人");
+        MessageUtil.showFailureMessage(messageObj, "请至少选择一人");
         var actionButton = dialog.getButton("btn-batch-schedule");
         actionButton.attr("disabled", "disabled");
-        
+
         return;
     }
     var stringId = "";
@@ -377,16 +405,16 @@ function batchSchedule(dialog, tbody){
         stringId = stringId + $(value).attr("role") + ",";
     });
     stringId = stringId.substring(0, stringId.length - 1);
-    $("#customerId").val(stringId);
-    var stringSendTime = $("#datepicker" ).val() + " " + $("#timespinner").val();
-    $("#stringSendTime").val(stringSendTime);
+    idObj.val(stringId);
+    var stringSendTime = $("#batchScheduleDatepicker").val() + " " + $("#batchScheduleTimespinner").val();
+    sendTimeObj.val(stringSendTime);
     $.ajax({
         type : "POST",
         url : "batchSchedule.html",
-        data : $("#batchScheduleForm").serialize(),
+        data : formObj.serialize(),
         datatype : "json",
         beforeSend : function() {
-            MessageUtil.showNormalMessage($("#batchScheduleMessage"), "预定中 ... ");
+            MessageUtil.showNormalMessage(messageObj, "预定中 ... ");
         },
         success : function(data) {
             if(data.result == 1){
@@ -400,11 +428,11 @@ function batchSchedule(dialog, tbody){
                 }
                 dialog.close();
             }else{
-                MessageUtil.showFailureMessage($("#batchScheduleMessage"), "预定失败！");
+                MessageUtil.showFailureMessage(messageObj, "预定失败！");
             }
         },
         error : function() {
-            MessageUtil.showFailureMessage($("#batchScheduleMessage"), "预定失败！");
+            MessageUtil.showFailureMessage(messageObj, "预定失败！");
         }
     });
 }

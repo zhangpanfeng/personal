@@ -23,4 +23,5 @@ $.widget("ui.timespinner", $.ui.spinner, {
     }
 });
 Globalize.culture("de-DE");
-$("#timespinner").timespinner();
+$("#batchScheduleTimespinner").timespinner();
+$("#scheduleTimespinner").timespinner();

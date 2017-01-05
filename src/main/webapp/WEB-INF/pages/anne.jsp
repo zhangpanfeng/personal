@@ -68,20 +68,90 @@
         <hr>
     </div>
     <div class="dialog-hidden" id="dialogHidden">
+        <!-- batch schedule form -->
         <form id="batchScheduleForm" role="form" class="custom-dialog">
             <div class="form-group" id="batchScheduleContent"></div>
             <div class="form-group pull-left">
-                <label for="name">日期</label> <input id="datepicker" class="custom-input"></input>
+                <label for="name">日期</label> 
+                <input id="batchScheduleDatepicker" class="custom-input"></input>
             </div>
             <div class="form-group pull-right" style="text-align: left;">
                 <label for="name">时间</label>
-                <input id="timespinner" class="times-pinner" name="timespinner" value="08:30">
+                <input id="batchScheduleTimespinner" class="times-pinner" value="08:30">
             </div>
             <div class="form-group">
-                <input type="hidden" id="customerId" name="stringId">
-                <input type="hidden" id="stringSendTime" name="stringSendTime">
+                <input type="hidden" id="batchScheduleCustomerId" name="stringId">
+                <input type="hidden" id="batchScheduleStringSendTime" name="stringSendTime">
             </div>
             <div id="batchScheduleMessage" class="col-center-block message clear normal">加载中...</div>
+        </form>
+        
+        <!-- schedule form -->
+        <form id="scheduleCustomerForm" role="form">
+            <div class="form-group">
+                <label for="name">手机号</label> 
+                <input type="text" id="scheduleCustomerPhone" disabled="disabled" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="name">姓名</label> 
+                <input type="text" id="scheduleCustomerName" disabled="disabled" class="form-control">
+            </div>
+            <div class="form-group pull-left">
+                <label for="name">日期</label>
+                <input id="scheduleDatepicker" class="custom-input"></input>
+            </div>
+            <div class="form-group pull-right" style="text-align: left;">
+                <label for="name">时间</label>
+                <input id="scheduleTimespinner" class="times-pinner" value="08:30">
+            </div>
+            <div class="form-group">
+                <input type="hidden" id="scheduleCustomerId" name="id">
+                <input type="hidden" id="scheduleStringSendTime" name="stringSendTime">
+            </div>
+            <div id="scheduleCustomerMessage" class="col-center-block message clear normal">加载中...</div>
+        </form>
+        
+        <!-- edit form -->
+        <form id="editCustomerForm" role="form">
+            <div class="form-group">
+                <label for="name">手机号</label> 
+                <input type="text" id="editCustomerPhone" name="phone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="name">姓名</label> 
+                <input type="text" id="editCustomerName" name="name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="name">备注</label>
+                <textarea rows="5" cols="" id="editCustomerComment" name="comment" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="hidden" id="editCustomerId" name="id">
+            </div>
+            <div id="editCustomerMessage" class="col-center-block message normal">加载中...</div>
+        </form>
+        
+        <!-- add from -->
+        <form id="addCustomerForm" role="form">
+            <div class="form-group">
+                <label for="name">手机号</label> 
+                <input type="text" name="phone" id="addCustomerPhone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="name">姓名</label> 
+                <input type="text" name="name" id="addCustomerName" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="name">备注</label>
+                <textarea rows="5" cols="" name="comment" id="addCustomerComment" class="form-control"></textarea>
+            </div>
+            <div id="addCustomerMessage" class="col-center-block message"></div>
+        </form>
+        
+        <!-- delete from -->
+        <form id="deleteCustomerForm" role="form">
+            <div style="font-weight: bold; padding-bottom: 20px">你确定要删除这条记录吗？</div>
+            <div id="deleteCustomerMessage" class="col-center-block message"></div>
         </form>
     </div>
     
