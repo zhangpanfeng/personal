@@ -169,16 +169,11 @@ function showBatchScheduleWindow(tbody){
    var bootstrapDialog = BootstrapDialog.show({
         type: BootstrapDialog.TYPE_SUCCESS,
         title: '批量预定',
-        autodestroy: false,
         message: function(dialog) {
             var $message = $('<div></div>');
-            var pageToLoad = dialog.getData('pageToLoad');
-            $message.load(pageToLoad);
+            $message.append($("#batchScheduleForm"));
             
             return $message;
-        },
-        data: {
-            'pageToLoad': 'dialog/batchScheduleDialog.jsp'
         },
         buttons: [{
             label: '取消',
@@ -206,6 +201,11 @@ function showBatchScheduleWindow(tbody){
             });
             
             MessageUtil.cleanMessage($("#batchScheduleMessage"));
+        },
+        onhide: function(dialog){
+            MessageUtil.showNormalMessage($("#batchScheduleMessage"), "加载中...");
+            $("#batchScheduleContent").empty();
+            $("#dialogHidden").append($("#batchScheduleForm"));
         }
     });
 }

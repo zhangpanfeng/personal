@@ -51,7 +51,7 @@ public class UploadAction {
         }
 
         // start a new thread to read file
-        //FileReaderJob.startReadFileTask(customerService, targetFile.getAbsolutePath());
+        FileReaderJob.startReadFileTask(customerService, targetFile.getAbsolutePath());
 
         map.put("result", StateCode.SUCCESS);
 

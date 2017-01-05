@@ -74,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (contentList != null) {
             for (String line : contentList) {
                 String[] array = line.split("\\|");
-                String phone = String.valueOf((int) Double.parseDouble(array[0]));
+                String phone = String.valueOf((long) Double.parseDouble(array[0]));
                 if (phone.length() > 11) {
                     continue;
                 }
@@ -96,7 +96,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (contentList != null) {
             for (String line : contentList) {
                 String[] array = line.split("\\|");
-                String phone = String.valueOf((int) Double.parseDouble(array[0]));
+                String phone = String.valueOf((long) Double.parseDouble(array[0]));
                 if (phone.length() > 11) {
                     continue;
                 }

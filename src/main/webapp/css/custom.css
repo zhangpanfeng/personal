@@ -199,3 +199,7 @@ button{
     text-decoration: none;
     background: #AADFFD url("../images/upload.png") no-repeat 60px 1px;
 }
+
+.dialog-hidden{
+    display: none;
+}
