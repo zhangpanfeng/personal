@@ -52,7 +52,6 @@ function login(dialog){
             $("#loginMessage").html("login ... ");
         },
         success : function(data) {
-            data = JSON.parse(data);
             if(data.result == 1){
                 //success
                 $("#buildLink").removeClass("hide");

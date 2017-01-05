@@ -102,7 +102,7 @@ function showScheduleEmaikWindow(tds, id){
         onshown: function(){
             requestCustomer(id, idObj, phoneObj, nameObj, null, messageObj);
         },
-        onhide: function(dialog){
+        onhidden: function(dialog){
             MessageUtil.showNormalMessage(messageObj, "加载中...");
             idObj.val("");
             phoneObj.val("");
@@ -145,7 +145,7 @@ function showEditorWindow(tds, id){
         onshown: function(){
             requestCustomer(id, idObj, phoneObj, nameObj, contentObj, messageObj);
         },
-        onhide: function(dialog){
+        onhidden: function(dialog){
             MessageUtil.showNormalMessage(messageObj, "加载中...");
             idObj.val("");
             phoneObj.val("");
@@ -184,7 +184,7 @@ function showAddWindow(tbody){
                 addCustomer(dialog, tbody, formData, messageObj);
             }
         }],
-        onhide: function(dialog){
+        onhidden: function(dialog){
             phoneObj.val("");
             nameObj.val("");
             contentObj.val("");
@@ -235,7 +235,7 @@ function showBatchScheduleWindow(tbody){
             
             MessageUtil.cleanMessage(messageObj);
         },
-        onhide: function(dialog){
+        onhidden: function(dialog){
             MessageUtil.showNormalMessage(messageObj, "加载中...");
             contentObj.empty();
             $("#dialogHidden").append(formObj);
@@ -268,7 +268,7 @@ function showDeleteWindow(tr, id){
                 deleteCustomer(dialog, tr, id, messageObj);
             }
         }],
-        onhide: function(dialog){
+        onhidden: function(dialog){
             $("#dialogHidden").append(formObj);
         }
     });
