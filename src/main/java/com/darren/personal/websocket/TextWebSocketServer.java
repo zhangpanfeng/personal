@@ -3,8 +3,6 @@ package com.darren.personal.websocket;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -29,6 +27,8 @@ public class TextWebSocketServer {
         this.isConnected = true;
         token = UUID.randomUUID().toString();
         SOCKET_MAP.put(token, this);
+        LOG.info("SOCKET_MAP");
+        System.out.println(SOCKET_MAP);
         this.onMessage(TOKEN + token);
 
         System.out.println("Client connected");
@@ -77,6 +77,7 @@ public class TextWebSocketServer {
      * @return WebSocketServer
      */
     public static TextWebSocketServer getSocketServer(String key) {
+        LOG.info(SOCKET_MAP);
         return SOCKET_MAP.get(key);
     }
 
