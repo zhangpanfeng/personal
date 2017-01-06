@@ -40,7 +40,7 @@ public class MailUtil {
         try {
             // configure sender email address
             message.setFrom(new InternetAddress(props.getProperty(MAIL_FROM)));
-            //  configure receiver email address
+            // configure receiver email address
             message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getTo()));
             // configure title
             message.setSubject(mail.getSubject());
@@ -52,7 +52,7 @@ public class MailUtil {
             contentPart.setText(mail.getText(), CHARSET, mail.getType().toLowerCase());
             multipart.addBodyPart(contentPart);
 
-            // add attachment 
+            // add attachment
             for (String filePath : mail.getFileList()) {
                 String fileName = "";
                 BodyPart fileBodyPart = new MimeBodyPart();
@@ -81,10 +81,10 @@ public class MailUtil {
             transport.close();
         } catch (Exception e) {
             e.printStackTrace();
-            
+
             return false;
         }
-        
+
         return true;
     }
 }
