@@ -11,6 +11,7 @@ public class LogUtil {
      * @param t
      */
     public static void info(Logger logger, Throwable t) {
+        logger.info(t.getMessage());
         StackTraceElement[] stackTraceArray = t.getStackTrace();
         for (StackTraceElement stackTrace : stackTraceArray) {
             logger.info(stackTrace.toString());
@@ -24,6 +25,7 @@ public class LogUtil {
      * @param t
      */
     public static void error(Logger logger, Throwable t) {
+        logger.error(t.getMessage());
         StackTraceElement[] stackTraceArray = t.getStackTrace();
         for (StackTraceElement stackTrace : stackTraceArray) {
             logger.error(stackTrace.toString());

@@ -28,9 +28,9 @@ public class BuildAction {
     @RequestMapping(value = "/build.do")
     public String build(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-//        if (user == null) {
-//            return "redirect:/";
-//        }
+        if (user == null) {
+            return "redirect:/";
+        }
         return "build";
     }
 

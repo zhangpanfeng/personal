@@ -156,4 +156,14 @@ public class Customer {
                 + comment + ", emailState=" + emailState + ", sendTime=" + getStringSendTime() + ", payState="
                 + payState + ", createTime=" + createTime + ", deleteTime=" + deleteTime + "]";
     }
+
+    /**
+     * 
+     * Y: have been send out 
+     * N: not send
+     *
+     */
+    public enum EmailState {
+        Y, N;
+    }
 }

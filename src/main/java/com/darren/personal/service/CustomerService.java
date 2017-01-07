@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.darren.personal.entity.Customer;
 
-public interface CustomerService extends BaseService{
+public interface CustomerService extends BaseService {
     /**
      * insert customer to table
      * 
@@ -20,6 +20,14 @@ public interface CustomerService extends BaseService{
      * @return
      */
     public int updateByParameter(Customer customer);
+
+    /**
+     * update customer by id, set email state to Y
+     * 
+     * @param stringId
+     *            "1,2,3"
+     */
+    public void updateScheduledCustomer(String stringId);
 
     /**
      * delete customer by id

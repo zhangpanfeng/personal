@@ -35,3 +35,16 @@
         </div>
     </div>
 </nav>
+<div class="dialog-hidden" id="loginDialogHidden">
+    <form id="loginForm" role="form">
+        <div class="form-group">
+            <label for="name">*UserName</label> 
+            <input type="text" placeholder="Username" id="loginUserName" name="userName" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="name">*Password</label> 
+            <input type="password" placeholder="Password" id="loginPassword" name="password" class="form-control">
+        </div>
+        <div id="loginMessage" class="col-center-block message"></div>
+    </form>
+</div>

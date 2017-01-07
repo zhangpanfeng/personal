@@ -27,8 +27,6 @@ public class TextWebSocketServer {
         this.isConnected = true;
         token = UUID.randomUUID().toString();
         SOCKET_MAP.put(token, this);
-        LOG.info("SOCKET_MAP");
-        System.out.println(SOCKET_MAP);
         this.onMessage(TOKEN + token);
 
         System.out.println("Client connected");
@@ -77,7 +75,6 @@ public class TextWebSocketServer {
      * @return WebSocketServer
      */
     public static TextWebSocketServer getSocketServer(String key) {
-        LOG.info(SOCKET_MAP);
         return SOCKET_MAP.get(key);
     }
 

@@ -1,7 +1,6 @@
 package com.darren.personal.action;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +20,15 @@ import com.darren.personal.constant.StateCode;
 import com.darren.personal.entity.Customer;
 import com.darren.personal.job.EmailScheduleJob;
 import com.darren.personal.service.CustomerService;
+import com.darren.personal.util.DateUtil;
 import com.darren.personal.util.JSONResponseUtil;
+import com.darren.personal.util.MailUtil;
 import com.darren.personal.util.StringUtil;
 
 @Controller
 public class CustomerAction {
     private static final Logger LOG = Logger.getLogger(CustomerAction.class);
-
+    
     @Resource
     private CustomerService customerService;
 
@@ -38,12 +39,10 @@ public class CustomerAction {
                 && (StringUtil.isEmpty(customer.getPhone()) || StringUtil.isEmpty(customer.getName()))) {
             for (Customer item : customerList) {
                 if (!StringUtil.isEmpty(customer.getPhone())) {
-                    item.setPhone(item.getPhone().replaceAll(customer.getPhone(),
-                            "<font color='red'>" + customer.getPhone() + "</font>"));
+                    item.setPhone(StringUtil.getHighLightString(item.getPhone(), customer.getPhone()));
                 }
                 if (!StringUtil.isEmpty(customer.getName())) {
-                    item.setName(item.getName().replaceAll(customer.getName(),
-                            "<font color='red'>" + customer.getName() + "</font>"));
+                    item.setName(StringUtil.getHighLightString(item.getName(), customer.getName()));
                 }
             }
         }
@@ -75,6 +74,7 @@ public class CustomerAction {
     public String editCustomer(HttpServletRequest request, Customer customer) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("result", 0);
+        customer.setEmailState(Customer.EmailState.N.toString());
         int rowCount = customerService.updateByParameter(customer);
         if (rowCount > 0) {
             Date sendTime = customer.getSendTime();
@@ -85,7 +85,11 @@ public class CustomerAction {
                     List<Customer> customerList = new ArrayList<Customer>();
                     customerList.add(customer);
                     String configPath = (String) request.getServletContext().getAttribute(Constant.EMAIL_CONFIG_PATH);
-                    EmailScheduleJob.scheduleTask(customerList, configPath, String.valueOf(customer.getId()), sendTime);
+                    String taskId = String.valueOf(customer.getId());
+                    //schedule task
+                    long localSendTime = DateUtil.getLocalTime(sendTime);
+                    String emailContent = MailUtil.getScheduleTemplate(customerList, localSendTime);
+                    EmailScheduleJob.scheduleTask(emailContent, configPath, taskId, localSendTime);
                 }
                 map.put("id", customer.getId());
                 map.put("phone", customer.getPhone());
@@ -143,6 +147,7 @@ public class CustomerAction {
             for (String stringId : idArray) {
                 Customer item = customerService.selectByPrimaryKey(Integer.valueOf(stringId.trim()));
                 item.setSendTime(customer.getSendTime());
+                item.setEmailState(Customer.EmailState.N.toString());
                 int rowCount = customerService.updateByParameter(item);
                 if (rowCount > 0) {
                     customerList.add(item);
@@ -151,7 +156,9 @@ public class CustomerAction {
             if (customerList.size() == idArray.length) {
                 // schedule email task
                 String configPath = (String) request.getServletContext().getAttribute(Constant.EMAIL_CONFIG_PATH);
-                EmailScheduleJob.scheduleTask(customerList, configPath, customer.getStringId(), customer.getSendTime());
+                long localSendTime = DateUtil.getLocalTime(customer.getSendTime());
+                String emailContent = MailUtil.getScheduleTemplate(customerList, localSendTime);
+                EmailScheduleJob.scheduleTask(emailContent, configPath, customer.getStringId(), localSendTime);
 
                 map.put("result", StateCode.SUCCESS);
                 map.put("customerList", customerList);

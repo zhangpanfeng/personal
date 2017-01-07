@@ -33,6 +33,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public void updateScheduledCustomer(String stringId) {
+        String[] array = stringId.split(",");
+        for (String sid : array) {
+            int id = Integer.parseInt(sid);
+            Customer customer = customerDao.selectByPrimaryKey(id);
+            customer.setEmailState(Customer.EmailState.Y.toString());
+            customerDao.updateByParameter(customer);
+        }
+    }
+
+    @Override
     public int deleteById(Customer customer) {
         customer.setDeleteTime(new Date());
         int result = customerDao.deleteById(customer);
@@ -108,7 +119,7 @@ public class CustomerServiceImpl implements CustomerService {
                     customer.setName(array[1]);
                     customer.setComment(array[2]);
                     customerDao.insert(customer);
-                }else{
+                } else {
                     customer = list.get(0);
                     customer.setName(array[1]);
                     customer.setComment(array[2]);
@@ -117,5 +128,4 @@ public class CustomerServiceImpl implements CustomerService {
             }
         }
     }
-
 }

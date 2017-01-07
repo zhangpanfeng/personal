@@ -34,4 +34,4 @@
 <script src="js/globalize.culture.de-DE.js" type="text/javascript"></script>
 <script src="js/jquery.mousewheel.js" type="text/javascript"></script>
 <script src="js/custom-util.js"></script>
-<script src="js/login.js"></script>
+<script src="js/custom-login.js"></script>

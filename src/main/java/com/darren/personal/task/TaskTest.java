@@ -24,7 +24,7 @@ public class TaskTest {
         // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间  
 //        service.scheduleAtFixedRate(runnable, 10, 1, TimeUnit.SECONDS);  
         String configPath = BASE_PATH + "mail.properties";
-        EmailTask task = new EmailTask(customerList, configPath, "111");
+        EmailTask task = new EmailTask("", configPath, "111");
        Future<?> future = service.scheduleAtFixedRate(task,2, 2, TimeUnit.SECONDS);
        task.setFuture(future);
 //        service.schedule(runnable, 1, TimeUnit.SECONDS);

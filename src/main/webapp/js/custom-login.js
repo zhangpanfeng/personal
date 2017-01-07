@@ -11,18 +11,17 @@ $("#signout").click(function(){
 });
 
 function showLogin(){
+    var messageObj = $("#loginMessage");
+    var formObj = $("#loginForm");
+    
     BootstrapDialog.show({
         title: 'Login',
         //draggable: true,
         message: function(dialog) {
             var $message = $('<div></div>');
-            var pageToLoad = dialog.getData('pageToLoad');
-            $message.load(pageToLoad);
+            $message.append(formObj);
     
             return $message;
-        },
-        data: {
-            'pageToLoad': 'login.jsp'
         },
         buttons: [{
             label: 'Close',
@@ -33,50 +32,46 @@ function showLogin(){
             label: 'Login',
             cssClass: 'btn-success',
             action: function(dialog){
-                login(dialog);
+                var formData = formObj.serialize();
+                login(dialog, formData, messageObj);
             }
-        }]
+        }],
+        onhidden: function(dialog){
+            MessageUtil.cleanMessage(messageObj);
+            var userNameObj = $("#loginUserName");
+            var passwordObj = $("#loginPassword");
+            userNameObj.val("");
+            passwordObj.val("");
+            $("#loginDialogHidden").append(formObj);
+        }
     });
 }
 
-function login(dialog){
+function login(dialog, formData, messageObj){
     $.ajax({
         type : "POST",
         url : "login.html",
-        data : $("#loginForm").serialize(),
+        data : formData,
         datatype : "json",// "xml", "html", "script", "json", "jsonp", "text".
         beforeSend : function() {
-            $("#loginMessage").removeClass("success");
-            $("#loginMessage").removeClass("failure");
-            $("#loginMessage").addClass("normal");
-            $("#loginMessage").html("login ... ");
+            MessageUtil.showNormalMessage(messageObj, "login ... ");
         },
         success : function(data) {
             if(data.result == 1){
                 //success
                 $("#buildLink").removeClass("hide");
-                
                 $("#signout").removeClass("hide");
                 $("#signin").addClass("hide");
                 $("#name").html(data.name);
-                $("#loginMessage").removeClass("failure");
-                $("#loginMessage").removeClass("normal");
-                $("#loginMessage").addClass("success");
-                $("#loginMessage").html("login success");
+                MessageUtil.showSuccessMessage(messageObj, "login success");
                 dialog.close();
             }else{
-                $("#loginMessage").removeClass("success");
-                $("#loginMessage").removeClass("normal");
-                $("#loginMessage").addClass("failure");
-                $("#loginMessage").html("login failure");
+                MessageUtil.showFailureMessage(messageObj, "login failure");
             }
             
         },
         error : function() {
-            $("#loginMessage").removeClass("success");
-            $("#loginMessage").removeClass("normal");
-            $("#loginMessage").addClass("failure");
-            $("#loginMessage").html("login failure");
+            MessageUtil.showFailureMessage(messageObj, "login failure");
         }
     });
 }
@@ -87,7 +82,6 @@ function logout(){
         url : "logout.html",
         datatype : "json",
         success : function(data) {
-            data = JSON.parse(data);
             if(data.result == 1){
                 //success
                 $("#buildLink").addClass("hide");
@@ -98,7 +92,6 @@ function logout(){
             }else{
                 alert("log out failure");
             }
-            
         },
         error : function() {
             alert("log out failure");
