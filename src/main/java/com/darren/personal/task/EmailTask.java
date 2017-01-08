@@ -45,6 +45,7 @@ public class EmailTask implements Runnable {
     @Override
     public void run() {
         LOG.info("Run the schedule task taskId: " + taskId);
+        emailContent = emailContent.substring(emailContent.indexOf(Constant.DELIMITER) + 1);
         MAIL.setText(emailContent);
         boolean result = MailUtil.send(MAIL, configPath);
         if (result) {

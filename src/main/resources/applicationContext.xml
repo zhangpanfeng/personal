@@ -31,10 +31,11 @@
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/pages/"
         p:suffix=".jsp" />
 
+<!-- org.springframework.web.multipart.commons.CommonsMultipartResolver -->
     <!-- 支持上传文件 -->
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <bean id="multipartResolver" class="com.darren.personal.listener.CustomMultipartResolver">
         <!-- 10mb -->
-        <property name="maxUploadSize" value="1000000" />
+        <!-- <property name="maxUploadSize" value="1000000" /> -->
     </bean>
 
     <!-- 引入配置文件 -->
