@@ -224,3 +224,7 @@ button{
     background-color: #449D44;
     width: 0;
 }
+
+.custom-iframe{
+    display: none;
+}

@@ -24,7 +24,7 @@
             
         </div>
     </div>
-    <iframe name="hidden"></iframe>
+    <iframe name="hidden" class="custom-iframe"></iframe>
     <jsp:include page="../../footer.jsp"></jsp:include>
     <script type="text/javascript" src="js/custom-websocket.js"></script>
     <script type="text/javascript" src="js/custom-upload.js"></script>

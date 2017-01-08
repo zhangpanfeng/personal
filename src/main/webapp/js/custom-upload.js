@@ -4,7 +4,7 @@ $(document).ready(function() {
     var progressbar = $("#progressbar");
     var i = 0;
     function changeProgressbar(value) {
-        if (i % 5 == 0) {
+        if (i % 5 == 0 || parseInt(value.data) == 100) {
             progressbar.width(value.data + "%");
         }
 
