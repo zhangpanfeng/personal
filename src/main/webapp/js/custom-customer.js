@@ -43,7 +43,7 @@ $("body").on("click", ".custom-dialog .custom-close", function(){
 });
 
 $("#export").click(function(){
-    window.location.href="http://localhost:8080/personal/export.html"; 
+    window.location.href="http://panfeng.info/export.html"; 
 
     return false;
 });
