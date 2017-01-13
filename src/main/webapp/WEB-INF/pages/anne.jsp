@@ -21,11 +21,10 @@
         <th colspan="4" style="padding-right: 10px;"><input type="text" class="form-control" name="phone" placeholder="输入手机号"></th>
         <th colspan="2" style="padding-right: 10px;"><input type="text" class="form-control" name="name" placeholder="输入姓名"></th>
         <th><button type="submit" class="btn btn-success">搜素</button>
-        <button type="button" class="btn btn-primary pull-right" style="margin-right: 10px;" id="addCustomer">添加</button>
+        <button type="button" class="btn btn-warning" id="export">导出</button>
+        <button type="button" class="btn btn-primary" id="addCustomer">添加</button>
         </th>
-        
         </tr>
-        
         <tr height="35" class="even-line">
         <th width="100">
             <button type="button" class="btn btn-success" id="batchSchedule">批量预定</button>

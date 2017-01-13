@@ -42,6 +42,12 @@ $("body").on("click", ".custom-dialog .custom-close", function(){
     return false;
 });
 
+$("#export").click(function(){
+    window.location.href="http://localhost:8080/personal/export.html"; 
+
+    return false;
+});
+
 function requestCustomer(id, idObj, phoneObj, nameObj, commentObj, messageObj){
     $.ajax({
         type : "POST",

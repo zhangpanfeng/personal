@@ -1,5 +1,6 @@
 package com.darren.personal.action;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ import com.darren.personal.entity.Customer;
 import com.darren.personal.job.EmailScheduleJob;
 import com.darren.personal.service.CustomerService;
 import com.darren.personal.util.DateUtil;
+import com.darren.personal.util.ExcelFileWriterUtil;
+import com.darren.personal.util.FileUtil;
 import com.darren.personal.util.JSONResponseUtil;
 import com.darren.personal.util.MailUtil;
 import com.darren.personal.util.StringUtil;
@@ -28,7 +32,7 @@ import com.darren.personal.util.StringUtil;
 @Controller
 public class CustomerAction {
     private static final Logger LOG = Logger.getLogger(CustomerAction.class);
-    
+
     @Resource
     private CustomerService customerService;
 
@@ -86,7 +90,7 @@ public class CustomerAction {
                     customerList.add(customer);
                     String configPath = (String) request.getServletContext().getAttribute(Constant.EMAIL_CONFIG_PATH);
                     String taskId = String.valueOf(customer.getId());
-                    //schedule task
+                    // schedule task
                     long localSendTime = DateUtil.getLocalTime(sendTime);
                     String emailContent = MailUtil.getScheduleTemplate(customerList, localSendTime);
                     EmailScheduleJob.scheduleTask(emailContent, configPath, taskId, localSendTime);
@@ -166,5 +170,40 @@ public class CustomerAction {
         }
 
         return JSONResponseUtil.getResult(map);
+    }
+
+    @RequestMapping(value = "/export.do")
+    public String export(HttpServletRequest request, HttpServletResponse response) {
+        String targetPath = request.getServletContext().getRealPath("upload");
+        FileUtil.createFolder(targetPath);
+
+        List<String> title = new ArrayList<String>();
+        title.add("Phone");
+        title.add("Name");
+        title.add("Comment");
+        List<Customer> customerList = customerService.selectAll();
+        List<String> content = new ArrayList<String>();
+        for (Customer customer : customerList) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(customer.getPhone()).append(Constant.DELIMITER);
+            builder.append(customer.getName()).append(Constant.DELIMITER);
+            builder.append(customer.getComment());
+
+            content.add(builder.toString());
+        }
+        String filePath = targetPath + "/" + new Date().getTime() + ".xlsx";
+        try {
+            boolean result = ExcelFileWriterUtil.writeExcel(filePath, title, content);
+            if (result) {
+                result = FileUtil.download(filePath, response);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage());
+        }
+
+        // Please notice the return value, if not null, it will show
+        // getOutputStream() has already been called for this response
+        return null;
     }
 }

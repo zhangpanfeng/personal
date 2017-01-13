@@ -11,9 +11,10 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.darren.personal.constant.Constant;
+
 public class ExcelFileWriterUtil {
     private static final Logger LOG = Logger.getLogger(ExcelFileWriterUtil.class);
-    private static final String DEFAULT_DELIMITER = "\\|";
 
     /**
      * Write Excel file suffix is .xlsx
@@ -74,7 +75,7 @@ public class ExcelFileWriterUtil {
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             XSSFRow xssfRow = xssfSheet.createRow(rowIndex + titleLine);
             String line = content.get(rowIndex);
-            String[] lineArray = line.split(DEFAULT_DELIMITER);
+            String[] lineArray = line.split(Constant.SPLIT_DELIMITER);
             int colCount = lineArray.length;
             for (int colIndex = 0; colIndex < colCount; colIndex++) {
                 XSSFCell xssfCell = xssfRow.createCell(colIndex);
