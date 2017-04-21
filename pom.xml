@@ -144,7 +144,11 @@
             <artifactId>poi-ooxml-schemas</artifactId>
             <version>3.15</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.0.1</version>
+        </dependency>
 
     </dependencies>
     <build>
