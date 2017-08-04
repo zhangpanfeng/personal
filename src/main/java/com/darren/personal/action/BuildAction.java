@@ -36,7 +36,7 @@ public class BuildAction {
 
     @ResponseBody
     @RequestMapping(value = "/execShell.do")
-    public String execShell(HttpServletRequest request, String token) {
+    public Object execShell(HttpServletRequest request, String token) {
         Map<String, Object> map = new HashMap<String, Object>();
         TextWebSocketServer webSocketServer = TextWebSocketServer.getSocketServer(token);
         if (webSocketServer == null) {
@@ -81,6 +81,6 @@ public class BuildAction {
         webSocketServer.onClose();
         map.put("result", StateCode.SUCCESS);
 
-        return JSONResponseUtil.getResult(map);
+        return map;
     }
 }

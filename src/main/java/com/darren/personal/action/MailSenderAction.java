@@ -32,7 +32,7 @@ public class MailSenderAction {
 
     @ResponseBody
     @RequestMapping(value = "/sendmail.do")
-    public String sendmail(ModelMap model, HttpServletRequest request, Mail mail) {
+    public Object sendmail(ModelMap model, HttpServletRequest request, Mail mail) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("result", 0);
         String text = mail.getText();
@@ -58,6 +58,6 @@ public class MailSenderAction {
             }
         }
 
-        return JSONResponseUtil.getResult(map);
+        return map;
     }
 }

@@ -27,7 +27,7 @@ public class LoginAction {
 
     @ResponseBody
     @RequestMapping(value = "/login.do")
-    public String login(ModelMap model, HttpServletRequest request, User user) {
+    public Object login(ModelMap model, HttpServletRequest request, User user) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("result", StateCode.FAILURE);
         String securityConfig = request.getServletContext().getInitParameter(SECURITY_CONFIG);
@@ -46,16 +46,16 @@ public class LoginAction {
             e.printStackTrace();
         }
 
-        return JSONResponseUtil.getResult(map);
+        return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "/logout.do")
-    public String logout(ModelMap model, HttpServletRequest request) {
+    public Object logout(ModelMap model, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<String, Object>();
         request.getSession().removeAttribute("user");
         map.put("result", StateCode.SUCCESS);
 
-        return JSONResponseUtil.getResult(map);
+        return map;
     }
 }

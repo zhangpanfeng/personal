@@ -58,7 +58,7 @@ public class CustomerAction {
 
     @ResponseBody
     @RequestMapping(value = "/getCustomer.do")
-    public String getCustomer(Customer customer) {
+    public Object getCustomer(Customer customer) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("result", 0);
         customer = customerService.selectByPrimaryKey(customer.getId());
@@ -70,12 +70,12 @@ public class CustomerAction {
             map.put("result", 1);
         }
 
-        return JSONResponseUtil.getResult(map);
+        return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "/editCustomer.do")
-    public String editCustomer(HttpServletRequest request, Customer customer) {
+    public Object editCustomer(HttpServletRequest request, Customer customer) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("result", 0);
         customer.setEmailState(Customer.EmailState.N.toString());
@@ -105,12 +105,12 @@ public class CustomerAction {
             }
         }
 
-        return JSONResponseUtil.getResult(map);
+        return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "/addCustomer.do")
-    public String addCustomer(Customer customer) {
+    public Object addCustomer(Customer customer) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("result", 0);
         int rowCount = customerService.insert(customer);
@@ -127,22 +127,22 @@ public class CustomerAction {
             }
         }
 
-        return JSONResponseUtil.getResult(map);
+        return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "/deleteCustomer.do")
-    public String deleteCustomer(Customer customer) {
+    public Object deleteCustomer(Customer customer) {
         Map<String, Object> map = new HashMap<String, Object>();
         int rowCount = customerService.deleteById(customer);
         map.put("result", rowCount);
 
-        return JSONResponseUtil.getResult(map);
+        return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "/batchSchedule.do")
-    public String batchSchedule(HttpServletRequest request, Customer customer) {
+    public Object batchSchedule(HttpServletRequest request, Customer customer) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("result", StateCode.FAILURE);
         List<Customer> customerList = new ArrayList<Customer>();
@@ -169,7 +169,7 @@ public class CustomerAction {
             }
         }
 
-        return JSONResponseUtil.getResult(map);
+        return map;
     }
 
     @RequestMapping(value = "/export.do")

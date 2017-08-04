@@ -12,6 +12,13 @@ PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
         <from>^/(\w+).html$</from>
         <to>/$1.do</to>
     </rule>
+    <rule>
+        <note>
+            xxx
+        </note>
+        <from>^/(\w+)/(\w+).html$</from>
+        <to>/$1/$2.do</to>
+    </rule>
     <outbound-rule>
         <note>
             The outbound-rule specifies that when response.encodeURL is called (if you are using JSTL c:url) the url
